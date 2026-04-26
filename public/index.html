@@ -3,26 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RO IT Systems</title>
-  <meta name="description" content="RO IT Systems consulting for enterprise architecture, AI strategy, governance design, and complex systems integration." />
+  <title>RO IT Systems | Responsible AI, Data Governance &amp; Platform Consulting</title>
+  <meta name="description" content="Practical consulting for responsible AI adoption, AI readiness, data governance, platform modernization, integration architecture, and AI governance in regulated and high-trust environments." />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
     body {
       background:
         radial-gradient(circle at top left, rgba(147, 197, 253, 0.22), transparent 28%),
         radial-gradient(circle at top right, rgba(59, 130, 246, 0.10), transparent 24%),
         #f8fafc;
     }
-    .page-view {
-      display: none;
-    }
-    .page-view.active {
-      display: block;
-    }
+    .page-view { display: none; }
+    .page-view.active { display: block; }
     .glass {
       background: rgba(255, 255, 255, 0.82);
       backdrop-filter: blur(14px);
@@ -56,35 +50,35 @@
   </style>
 </head>
 <body class="min-h-screen text-slate-900 antialiased">
+
   <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
       <a href="#home" data-route="home" class="flex items-center gap-3 route-link">
         <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-900 to-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">RO</div>
         <div>
           <div class="text-lg font-semibold tracking-tight">RO IT Systems</div>
-          <div class="text-sm text-slate-500">Enterprise transformation consulting</div>
+          <div class="text-sm text-slate-500">Responsible AI &bull; Data Governance &bull; Platform Consulting</div>
         </div>
       </a>
-
-      <nav class="hidden items-center gap-2 md:flex">
-        <a href="#home" data-route="home" class="page-link route-link rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Home</a>
-        <a href="#services" data-route="services" class="page-link route-link rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Services</a>
-        <a href="#results" data-route="results" class="page-link route-link rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Results</a>
-        <a href="#about" data-route="about" class="page-link route-link rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">About</a>
-        <a href="#insights" data-route="insights" class="page-link route-link rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Insights</a>
+      <nav class="hidden items-center gap-1 md:flex">
+        <a href="#home" data-route="home" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Home</a>
+        <a href="#trust" data-route="trust" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Trust</a>
+        <a href="#services" data-route="services" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Services</a>
+        <a href="#outcomes" data-route="outcomes" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Outcomes</a>
+        <a href="#about" data-route="about" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">About</a>
+        <a href="#insights" data-route="insights" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Insights</a>
         <a href="#contact" data-route="contact" class="page-link route-link ml-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Contact</a>
       </nav>
-
       <button id="mobileMenuButton" class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-slate-700 md:hidden" aria-label="Toggle navigation">
         <i data-lucide="menu" class="h-5 w-5"></i>
       </button>
     </div>
-
     <div id="mobileMenu" class="hidden border-t border-slate-200 bg-white/95 px-4 py-3 md:hidden">
       <div class="flex flex-col gap-2">
         <a href="#home" data-route="home" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">Home</a>
+        <a href="#trust" data-route="trust" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">Trust</a>
         <a href="#services" data-route="services" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">Services</a>
-        <a href="#results" data-route="results" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">Results</a>
+        <a href="#outcomes" data-route="outcomes" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">Outcomes</a>
         <a href="#about" data-route="about" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">About</a>
         <a href="#insights" data-route="insights" class="route-link rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100">Insights</a>
         <a href="#contact" data-route="contact" class="route-link rounded-2xl px-4 py-3 text-sm font-semibold text-blue-900 hover:bg-blue-50">Contact</a>
@@ -93,6 +87,8 @@
   </header>
 
   <main>
+
+    <!-- HOME -->
     <section id="home" class="page-view active">
       <div class="px-4 pb-8 pt-6 sm:px-6 lg:px-8 lg:pt-10">
         <div class="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-white/40 bg-gradient-to-br from-slate-950 via-blue-950 to-blue-600 shadow-[0_30px_100px_rgba(15,23,42,0.18)]">
@@ -102,274 +98,371 @@
             <div class="absolute right-10 top-10 hidden h-80 w-80 rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.95),rgba(255,255,255,0.34)_36%,rgba(255,255,255,0.08)_62%,transparent_74%)] opacity-90 blur-[1px] lg:block"></div>
             <div class="absolute right-24 top-40 hidden rounded-3xl border border-white/15 bg-white/10 px-5 py-4 text-white/90 shadow-2xl backdrop-blur-md lg:block">
               <div class="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Built for</div>
-              <div class="mt-1 text-base font-semibold">Regulated enterprises</div>
+              <div class="mt-1 text-base font-semibold">High-trust environments</div>
             </div>
             <div class="absolute bottom-28 right-16 hidden rounded-3xl border border-white/15 bg-white/10 px-5 py-4 text-white/90 shadow-2xl backdrop-blur-md lg:block">
               <div class="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Consulting focus</div>
-              <div class="mt-1 text-base font-semibold">AI, architecture, governance</div>
+              <div class="mt-1 text-base font-semibold">Responsible AI since 1999</div>
             </div>
-
             <div class="relative z-10 px-6 py-12 sm:px-10 md:px-12 lg:px-16">
               <div class="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/85">
-                Modern consulting for complex technology change
+                Responsible AI &bull; Data Governance &bull; Platform Strategy
               </div>
-
               <h1 class="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-7xl">
-                RO IT Systems helps organizations turn complexity into momentum.
+                Is your AI trustworthy?
               </h1>
-
-              <p class="mt-6 max-w-2xl text-base leading-7 text-white/78 sm:text-lg">
-                Consulting for enterprise architecture, AI implementation, governance design, and complex systems integration in environments where resilience, clarity, and execution all matter.
+              <p class="mt-5 max-w-2xl text-base leading-7 text-white/80 sm:text-lg">
+                RO IT Systems helps organisations move from AI curiosity to safe implementation by aligning people, data, governance, platforms, and business outcomes.
               </p>
-
+              <p class="mt-3 max-w-2xl text-sm leading-6 text-white/62">
+                Since 1999, RO IT Systems has helped organisations protect confidentiality, integrity, availability, and reputation in complex digital systems. Today, we apply that same discipline to responsible AI, data governance, platform modernisation, and agentic AI adoption.
+              </p>
               <div class="mt-8 flex flex-wrap gap-3">
                 <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-blue-950 shadow-xl transition hover:-translate-y-0.5">Book a consultation</a>
                 <a href="#services" data-route="services" class="route-link inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5">Explore services</a>
               </div>
-
               <div class="mt-10 grid gap-3 sm:grid-cols-3">
                 <div class="rounded-3xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-md">
-                  <div class="text-2xl font-semibold tracking-tight">AI</div>
-                  <div class="mt-2 text-sm leading-6 text-white/72">Practical implementation and governance</div>
+                  <div class="text-xl font-semibold tracking-tight">AI Readiness</div>
+                  <div class="mt-2 text-sm leading-6 text-white/72">From scattered pilots to a practical 90-day roadmap.</div>
                 </div>
                 <div class="rounded-3xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-md">
-                  <div class="text-2xl font-semibold tracking-tight">Risk</div>
-                  <div class="mt-2 text-sm leading-6 text-white/72">Compliance-aware architecture decisions</div>
+                  <div class="text-xl font-semibold tracking-tight">Governance</div>
+                  <div class="mt-2 text-sm leading-6 text-white/72">Controls, decision rights, and human accountability that keep adoption trustworthy.</div>
                 </div>
                 <div class="rounded-3xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-md">
-                  <div class="text-2xl font-semibold tracking-tight">Scale</div>
-                  <div class="mt-2 text-sm leading-6 text-white/72">Cloud, data, integration, and operating model design</div>
+                  <div class="text-xl font-semibold tracking-tight">Execution</div>
+                  <div class="mt-2 text-sm leading-6 text-white/72">Architecture and integration patterns that turn insight into action.</div>
                 </div>
               </div>
             </div>
-
             <div class="relative hidden h-full lg:block"></div>
           </div>
         </div>
       </div>
-
-      <div class="px-4 py-10 sm:px-6 lg:px-8">
-        <div class="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
-          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900">
-              <i data-lucide="building-2" class="h-7 w-7"></i>
-            </div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Architecture-led advisory</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Enterprise architecture recommendations grounded in real delivery constraints, platform realities, and organizational fit.</p>
-          </div>
-          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900">
-              <i data-lucide="bot" class="h-7 w-7"></i>
-            </div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Responsible AI execution</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">AI strategy, governance, and practical implementation patterns focused on enterprise adoption rather than hype.</p>
-          </div>
-          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900">
-              <i data-lucide="shield-check" class="h-7 w-7"></i>
-            </div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Governance that works</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Decision rights, controls, and operating rhythms designed to accelerate execution with accountability.</p>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <section id="services" class="page-view px-4 py-16 sm:px-6 lg:px-8">
+    <!-- TRUST -->
+    <section id="trust" class="page-view px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-10">
-          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Core consulting skills</div>
-          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">Services built around enterprise transformation.</h2>
-          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">From platform modernization to AI operating models, the practice is oriented around solving high-stakes technology problems where architecture, governance, and execution must work together.</p>
+          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Since 1999</div>
+          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">From secure systems to trustworthy AI.</h2>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">AI adoption is the next reliability and trust challenge. The fundamentals still matter: confidentiality, integrity, availability, governance, and operational discipline. RO IT Systems helps organisations modernise for AI without losing control of data, risk, or reputation.</p>
         </div>
-
-        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="building-2" class="h-7 w-7"></i></div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Enterprise Architecture & Platform Strategy</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Design future-state architecture for data, integration, and cloud platforms with a clear line from business priorities to implementation.</p>
-            <div class="mt-6 flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Target architecture</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Modernization roadmaps</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Cloud platforms</span>
-            </div>
-          </article>
-
-          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="shield-check" class="h-7 w-7"></i></div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Regulatory & Risk-Aligned Design</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Build systems and delivery approaches that account for privacy, residency, auditability, third-party risk, and sector-specific controls.</p>
-            <div class="mt-6 flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Risk controls</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Data governance</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Audit readiness</span>
-            </div>
-          </article>
-
-          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="bot" class="h-7 w-7"></i></div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">AI Strategy & Applied Implementation</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Translate AI ambition into concrete operating models, use cases, controls, and technical patterns that can be adopted responsibly.</p>
-            <div class="mt-6 flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">GenAI strategy</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">RAG use cases</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Operating models</span>
-            </div>
-          </article>
-
-          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="network" class="h-7 w-7"></i></div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Complex Systems Integration</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Connect and rationalize heterogeneous ecosystems across APIs, ETL, event streams, data platforms, and legacy services.</p>
-            <div class="mt-6 flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Integration patterns</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Migration planning</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Interoperability</span>
-            </div>
-          </article>
-
-          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="chart-column-big" class="h-7 w-7"></i></div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Operating Model & Governance Design</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Define decision rights, delivery structures, intake processes, and governance rhythms that allow teams to move faster with accountability.</p>
-            <div class="mt-6 flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Decision rights</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">DevOps transition</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Portfolio intake</span>
-            </div>
-          </article>
-
-          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="messages-square" class="h-7 w-7"></i></div>
-            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Strategic Communication & Stakeholder Alignment</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Support executive, board, and cross-functional alignment with clear narratives, risk framing, and decision-ready communications.</p>
-            <div class="mt-6 flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Executive advisory</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Board communications</span>
-              <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">Transformation narratives</span>
-            </div>
-          </article>
+        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="lock" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Confidentiality</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Protect sensitive data, prompts, context, and customer information before they enter AI workflows.</p>
+          </div>
+          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="shield-check" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Integrity</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Design controls so AI outputs, data pipelines, and automated actions can be checked, trusted, and governed.</p>
+          </div>
+          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="activity" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Availability</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Build AI-enabled workflows on reliable platforms, resilient integrations, and observable operations.</p>
+          </div>
+          <div class="value-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="users" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Reputation</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Adopt AI in ways that customers, staff, regulators, and communities can trust.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="results" class="page-view px-4 py-16 sm:px-6 lg:px-8">
+    <!-- SERVICES -->
+    <section id="services" class="page-view px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-8">
+          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Consulting offers</div>
+          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">Structured services for organisations that need AI they can trust.</h2>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">For organisations that want to adopt AI without weakening confidentiality, integrity, availability, or public trust.</p>
+          <p class="mt-3 text-sm italic text-slate-500">Transparent starting prices. Final scope is confirmed after a discovery call. Reduced rates may be available for selected nonprofit, community, and public-interest organisations.</p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="book-open" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">Safe AI Use Workshop</h3>
+            <p class="mt-1 text-sm font-medium text-blue-700">Train the people before scaling the tools.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">A practical half-day or full-day workshop for teams using ChatGPT, Claude, Copilot, Gemini, or embedded AI tools. Helps staff use AI productively while protecting confidential data, avoiding overtrust, checking outputs, and knowing when human review is required.</p>
+            <div class="mt-4">
+              <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Best for</div>
+              <p class="mt-1 text-sm text-slate-600">Staff teams, managers, HR, operations, customer support, product teams, and internal AI champions.</p>
+            </div>
+            <div class="mt-4">
+              <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Topics covered</div>
+              <p class="mt-1 text-sm text-slate-600">Safe prompting, data minimisation, confidential information, context drift, AI mistakes, source checking, human-in-the-loop review, and customer-facing output rules.</p>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-slate-900">From $4,500 CAD</span>
+              <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Discuss a workshop</a>
+            </div>
+          </article>
+
+          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="compass" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">AI Readiness &amp; Opportunity Sprint</h3>
+            <p class="mt-1 text-sm font-medium text-blue-700">Turn AI curiosity into a 90-day action plan.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">A focused sprint for leaders who need to identify realistic AI use cases, assess data and workflow readiness, evaluate platform choices, and decide what to pilot first.</p>
+            <div class="mt-4">
+              <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Best for</div>
+              <p class="mt-1 text-sm text-slate-600">Executives, transformation leaders, CIOs, CTOs, operations leaders, product owners, and data/platform teams.</p>
+            </div>
+            <div class="mt-4 rounded-2xl border border-blue-100 bg-blue-50/60 px-4 py-3">
+              <p class="text-sm font-medium text-blue-900">Includes adaptation gap and action gap assessment.</p>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-slate-900">$15,000–$32,000 CAD</span>
+              <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Plan a readiness sprint</a>
+            </div>
+          </article>
+
+          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="shield-alert" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">AI Governance &amp; Security Review</h3>
+            <p class="mt-1 text-sm font-medium text-blue-700">Enable AI without letting risk outrun control.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">A targeted review for organisations adopting AI tools, AI agents, or LLM-powered applications. Identifies governance, security, privacy, and operational risks before they become production problems.</p>
+            <div class="mt-4">
+              <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Best for</div>
+              <p class="mt-1 text-sm text-slate-600">CISOs, CIOs, CTOs, privacy officers, boards, risk committees, and technology teams deploying AI-enabled systems.</p>
+            </div>
+            <div class="mt-4">
+              <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Risk areas covered</div>
+              <p class="mt-1 text-sm text-slate-600">Shadow AI, sensitive-data leakage, prompt injection, insecure output handling, excessive agent authority, vendor/model risk, audit logging, and incident readiness.</p>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-slate-900">$12,000–$35,000 CAD</span>
+              <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Review AI risk</a>
+            </div>
+          </article>
+
+          <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="code-2" class="h-7 w-7"></i></div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-950">AI-Assisted Delivery Lab</h3>
+            <p class="mt-1 text-sm font-medium text-blue-700">Build a small working prototype, safely.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">A short technical engagement that helps a team shape, build, and validate a small AI-enabled workflow, automation, or integration prototype using responsible AI-assisted development practices.</p>
+            <div class="mt-4">
+              <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Best for</div>
+              <p class="mt-1 text-sm text-slate-600">Technology teams, innovation teams, operations teams, and organisations with a concrete automation or integration idea.</p>
+            </div>
+            <div class="mt-4 rounded-2xl border border-slate-100 bg-slate-50/80 px-4 py-3">
+              <p class="text-sm text-slate-600">Grounded in hands-on AI-assisted development experience with Node.js, NPM, SignalK/ControlK plugin development, Claude Code, and real integration delivery.</p>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-slate-900">$10,000–$25,000 CAD</span>
+              <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Scope a delivery lab</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="mt-8">
+          <div class="mb-5 flex items-center gap-3">
+            <div class="h-px flex-1 bg-slate-200"></div>
+            <span class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Specialist offers</span>
+            <div class="h-px flex-1 bg-slate-200"></div>
+          </div>
+          <div class="grid gap-5 md:grid-cols-2">
+            <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+              <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="megaphone" class="h-7 w-7"></i></div>
+              <h3 class="text-xl font-semibold tracking-tight text-slate-950">Trusted AI Communications &amp; Public Risk Briefing</h3>
+              <p class="mt-1 text-sm font-medium text-blue-700">Explain AI change clearly before fear fills the gap.</p>
+              <p class="mt-3 text-sm leading-6 text-slate-600">A briefing and communications support offer for organisations that need to explain AI adoption to boards, staff, customers, communities, or public-interest stakeholders.</p>
+              <div class="mt-4">
+                <div class="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Best for</div>
+                <p class="mt-1 text-sm text-slate-600">Boards, nonprofits, public-sector-adjacent organisations, associations, HR leaders, and communications teams deploying AI in sensitive contexts.</p>
+              </div>
+              <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-slate-900">$6,000–$15,000 CAD</span>
+                <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Prepare a briefing</a>
+              </div>
+            </article>
+
+            <article class="service-card glass rounded-[2rem] border border-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+              <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="graduation-cap" class="h-7 w-7"></i></div>
+              <h3 class="text-xl font-semibold tracking-tight text-slate-950">Sliding-Scale AI Learning Cohorts</h3>
+              <p class="mt-1 text-sm font-medium text-blue-700">Democratised AI literacy for individuals and community organisations.</p>
+              <p class="mt-3 text-sm leading-6 text-slate-600">Public group classes for professionals, nonprofit workers, advocates, board members, and small organisations that need practical AI literacy without enterprise consulting fees.</p>
+              <div class="mt-4 grid gap-2">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
+                  <div class="text-sm font-semibold text-slate-900">AI Safe Use 101</div>
+                  <div class="mt-0.5 text-sm text-slate-600">2-hour live class &mdash; $195&ndash;$295 CAD</div>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
+                  <div class="text-sm font-semibold text-slate-900">Practical AI for Work Bootcamp</div>
+                  <div class="mt-0.5 text-sm text-slate-600">4-session cohort &mdash; sliding scale $350 / $850 / $1,250 CAD</div>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
+                  <div class="text-sm font-semibold text-slate-900">Agentic AI for Operators</div>
+                  <div class="mt-0.5 text-sm text-slate-600">Advanced cohort &mdash; $1,500&ndash;$2,500 CAD</div>
+                </div>
+              </div>
+              <p class="mt-3 text-xs text-slate-500">Corporate and institutional clients pay professional rates. Sliding-scale pricing is available for individuals, community organisations, and selected nonprofit participants.</p>
+              <div class="mt-4">
+                <a href="#contact" data-route="contact" class="route-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Join the learning list</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTCOMES -->
+    <section id="outcomes" class="page-view px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-10">
           <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Outcome oriented</div>
-          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">Consulting designed to move from analysis to delivery.</h2>
-          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">The focus is not on slideware alone. Engagements are structured to produce decisions, roadmaps, implementation direction, and measurable execution momentum.</p>
+          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">Outcomes the work is designed to create.</h2>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">RO IT Systems focuses on practical outcomes: fewer stalled pilots, safer adoption, stronger execution, and better governance.</p>
         </div>
 
-        <div class="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+        <div class="mb-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           <div class="result-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <h3 class="text-2xl font-semibold tracking-tight text-slate-950">What clients typically need</h3>
-            <div class="mt-6 grid gap-4 text-slate-600">
-              <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"><span class="font-semibold text-slate-950">Clarity. </span>A realistic target state for platforms, AI, and governance.</div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"><span class="font-semibold text-slate-950">Control. </span>Architecture choices that hold up under operational and regulatory scrutiny.</div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"><span class="font-semibold text-slate-950">Execution. </span>A delivery path that teams can actually sustain.</div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"><span class="font-semibold text-slate-950">Alignment. </span>Shared understanding between technology, business, risk, and leadership stakeholders.</div>
-            </div>
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="trending-up" class="h-7 w-7"></i></div>
+            <h3 class="text-lg font-semibold text-slate-950">Fewer stalled pilots</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Move from scattered AI experiments to prioritised use cases and clear next steps.</p>
           </div>
+          <div class="result-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="shield" class="h-7 w-7"></i></div>
+            <h3 class="text-lg font-semibold text-slate-950">Safer adoption</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Reduce data leakage, overtrust, shadow AI, and unclear human-review practices.</p>
+          </div>
+          <div class="result-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="zap" class="h-7 w-7"></i></div>
+            <h3 class="text-lg font-semibold text-slate-950">Stronger execution</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Close the gap between AI-generated insight and business action.</p>
+          </div>
+          <div class="result-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200/60 bg-gradient-to-b from-blue-100 to-blue-50 text-blue-900"><i data-lucide="scale" class="h-7 w-7"></i></div>
+            <h3 class="text-lg font-semibold text-slate-950">Better governance</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Define decision rights, controls, audit paths, and accountability before AI reaches production.</p>
+          </div>
+        </div>
 
-          <div class="grid gap-5 self-end sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-            <div class="glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]"><div class="text-4xl font-semibold tracking-tight text-slate-950">01</div><div class="mt-3 text-lg font-semibold text-slate-900">Strategy</div><p class="mt-2 text-sm leading-6 text-slate-600">Define the problem, future state, and constraints.</p></div>
-            <div class="glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]"><div class="text-4xl font-semibold tracking-tight text-slate-950">02</div><div class="mt-3 text-lg font-semibold text-slate-900">Architecture</div><p class="mt-2 text-sm leading-6 text-slate-600">Design pragmatic patterns, controls, and platform decisions.</p></div>
-            <div class="glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]"><div class="text-4xl font-semibold tracking-tight text-slate-950">03</div><div class="mt-3 text-lg font-semibold text-slate-900">Governance</div><p class="mt-2 text-sm leading-6 text-slate-600">Set decision rights, intake, and accountability rhythms.</p></div>
-            <div class="glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]"><div class="text-4xl font-semibold tracking-tight text-slate-950">04</div><div class="mt-3 text-lg font-semibold text-slate-900">Delivery</div><p class="mt-2 text-sm leading-6 text-slate-600">Translate direction into roadmaps, execution, and adoption.</p></div>
-          </div>
+        <div class="glass mb-6 rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <h3 class="mb-5 text-xl font-semibold tracking-tight text-slate-950">Experience includes</h3>
+          <ul class="grid gap-3 text-sm leading-6 text-slate-600 sm:grid-cols-2">
+            <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue-600"></i>Enterprise data, integration, BI, governance, and platform leadership.</li>
+            <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue-600"></i>100+ production APIs supported with high-reliability operating patterns.</li>
+            <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue-600"></i>Large-scale ETL/ELT and ingestion environments.</li>
+            <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue-600"></i>Generative AI governance, Copilot adoption, and safe-use guardrails.</li>
+            <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue-600"></i>AI-assisted technical delivery using Node.js, NPM, Claude Code, and integration patterns.</li>
+            <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue-600"></i>Consulting across banking, utilities, airport operations, cybersecurity, telecom, retail, and platform technology.</li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <h3 class="mb-3 text-xl font-semibold tracking-tight text-slate-950">Selected legacy and enterprise experience</h3>
+          <p class="text-sm leading-6 text-slate-600">Experience includes enterprise work for or with organisations in banking, utilities, airport operations, cybersecurity, telecom, retail, and platform technology, including Credit Suisse, UBS, Goldman Sachs Bank, BC Hydro, YVR, Sophos, Tibco Professional Services, Accenture, and Best Buy Canada.</p>
         </div>
       </div>
     </section>
 
+    <!-- ABOUT -->
     <section id="about" class="page-view px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-10">
-          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Why RO IT Systems</div>
-          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">A consulting practice centered on high-stakes technology environments.</h2>
-          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">RO IT Systems is positioned for organizations navigating modernization, AI adoption, platform complexity, and governance demands at the same time.</p>
+          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">About RO IT Systems</div>
+          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">A consulting practice built on trust, discipline, and execution.</h2>
         </div>
-
         <div class="grid gap-5 lg:grid-cols-2">
           <div class="info-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <h3 class="text-2xl font-semibold tracking-tight text-slate-950">Advisory posture</h3>
-            <div class="mt-6 grid gap-4">
-              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Executive level framing</div><p class="mt-1 text-sm leading-6 text-slate-600">Translate technical complexity into decision-ready guidance for leaders and boards.</p></div>
-              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Hands-on technical depth</div><p class="mt-1 text-sm leading-6 text-slate-600">Ground recommendations in real platform, integration, and delivery experience.</p></div>
-              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Governance-aware execution</div><p class="mt-1 text-sm leading-6 text-slate-600">Design change that is sustainable under operational, legal, and compliance pressure.</p></div>
+            <h3 class="text-2xl font-semibold tracking-tight text-slate-950">The practice</h3>
+            <div class="mt-5 space-y-4 text-sm leading-6 text-slate-600">
+              <p>RO IT Systems began as a secure integration and enterprise architecture consultancy focused on hardened network-enabled systems. Its current work extends that foundation into responsible AI, data governance, platform modernisation, and agentic AI adoption.</p>
+              <p>RO IT Systems is led by Morgane Oger, a senior technology leader and consultant working at the intersection of responsible AI, data governance, enterprise platforms, integration architecture, and public trust.</p>
+              <p>Morgane brings more than 20 years of experience across enterprise data platforms, integration systems, DevOps, regulated environments, cloud modernisation, financial services, retail technology, and public-interest governance. Her work combines executive-level strategy with hands-on architecture and delivery experience.</p>
+              <p>Her background includes leadership of enterprise data and integration platforms, generative AI governance and safe-use work, Snowflake and Azure modernisation, MuleSoft/API ecosystems, large-scale ETL/ELT environments, and consulting across banking, telecom, utilities, retail, and advanced technology.</p>
+              <p>Morgane also brings public-interest governance experience as the founder of the Morgane Oger Foundation, a board leader, human-rights advocate, and recipient of the Meritorious Service Medal. That perspective shapes a consulting approach focused on trust, accountability, and practical implementation.</p>
             </div>
           </div>
-
-          <div class="info-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <h3 class="text-2xl font-semibold tracking-tight text-slate-950">Ideal engagements</h3>
-            <div class="mt-6 grid gap-4">
-              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Platform modernization</div><p class="mt-1 text-sm leading-6 text-slate-600">Legacy data, integration, and architecture transformation with clear sequencing.</p></div>
-              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">AI adoption roadmaps</div><p class="mt-1 text-sm leading-6 text-slate-600">Responsible AI strategy, use case selection, governance, and implementation patterns.</p></div>
-              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Regulated operating models</div><p class="mt-1 text-sm leading-6 text-slate-600">Delivery structures and architecture decisions for environments with high trust requirements.</p></div>
+          <div class="flex flex-col gap-5">
+            <div class="info-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+              <blockquote class="text-lg font-semibold italic leading-7 text-slate-900">&ldquo;AI that is not governed is not trustworthy. AI that is not trustworthy does not last.&rdquo;</blockquote>
+              <div class="mt-4 text-sm text-slate-500">&mdash; Morgane Oger, RO IT Systems</div>
+            </div>
+            <div class="info-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+              <h3 class="mb-4 text-xl font-semibold tracking-tight text-slate-950">Approach</h3>
+              <div class="grid gap-3">
+                <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Executive-level framing</div><p class="mt-1 text-sm leading-6 text-slate-600">Translate technical complexity into decision-ready guidance for leaders and boards.</p></div>
+                <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Hands-on technical depth</div><p class="mt-1 text-sm leading-6 text-slate-600">Ground recommendations in real platform, integration, and delivery experience.</p></div>
+                <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4"><div class="font-semibold text-slate-950">Governance-aware execution</div><p class="mt-1 text-sm leading-6 text-slate-600">Design change that is sustainable under operational, legal, and compliance pressure.</p></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- INSIGHTS -->
     <section id="insights" class="page-view px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-10">
-          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Insights</div>
-          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">Topics that matter to modern technology leaders.</h2>
-          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">Thought leadership areas that fit the practice: AI governance, platform modernization, delivery operating models, and risk-aware enterprise transformation.</p>
+          <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Insights and themes</div>
+          <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">Topics RO IT Systems helps leaders and teams work through.</h2>
         </div>
-
-        <div class="grid gap-5 lg:grid-cols-3">
+        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           <article class="insight-card glass flex min-h-[260px] flex-col rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="text-sm font-semibold text-slate-500">April 2026</div>
-            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">What responsible enterprise AI adoption actually requires</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">How to move beyond pilots toward practical controls, data boundaries, and operating disciplines.</p>
+            <div class="text-sm font-semibold text-slate-500">AI Governance</div>
+            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">The AI adaptation gap</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Why AI adoption is outpacing governance, education, evaluation, and data readiness.</p>
             <a href="#contact" data-route="contact" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Discuss this topic <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
           </article>
-
           <article class="insight-card glass flex min-h-[260px] flex-col rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="text-sm font-semibold text-slate-500">April 2026</div>
-            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">Modernizing data and integration without creating delivery chaos</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Sequencing architecture and operating model changes so platform transformation stays usable for delivery teams.</p>
+            <div class="text-sm font-semibold text-slate-500">Agentic AI</div>
+            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">The agentic action gap</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Why AI agents often produce insight without business action &mdash; and how to close the gap.</p>
             <a href="#contact" data-route="contact" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Discuss this topic <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
           </article>
-
           <article class="insight-card glass flex min-h-[260px] flex-col rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="text-sm font-semibold text-slate-500">April 2026</div>
-            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">Governance that accelerates execution instead of slowing it down</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600 md:text-base">Designing decision rights and review structures that support speed, clarity, and accountability together.</p>
+            <div class="text-sm font-semibold text-slate-500">Safe AI Use</div>
+            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">Safe AI use at work</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">What staff need to know before organisations scale generative AI.</p>
+            <a href="#contact" data-route="contact" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Discuss this topic <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+          </article>
+          <article class="insight-card glass flex min-h-[260px] flex-col rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="text-sm font-semibold text-slate-500">Integration Architecture</div>
+            <h3 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">From integration architecture to agentic AI</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Why the old problem of connecting systems to action matters even more in the AI era.</p>
             <a href="#contact" data-route="contact" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Discuss this topic <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- CONTACT -->
     <section id="contact" class="page-view px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+      <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.92fr_1.08fr]">
         <div class="overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-blue-900 to-blue-500 p-8 text-white shadow-[0_30px_100px_rgba(15,23,42,0.18)] sm:p-10 lg:p-12">
           <div class="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/85">Contact</div>
-          <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-5xl">Need help shaping a complex transformation?</h2>
-          <p class="mt-4 max-w-2xl text-base leading-7 text-white/80 md:text-lg">RO IT Systems provides strategic and implementation-focused consulting for organizations navigating AI, platform modernization, enterprise integration, and governance-heavy change.</p>
-
+          <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-5xl">Start with a practical conversation.</h2>
+          <p class="mt-4 max-w-2xl text-base leading-7 text-white/80 md:text-lg">Whether you need a workshop, readiness sprint, governance review, prototype lab, board briefing, or learning cohort, start with a short conversation about the problem, the risks, and the decision you need to make next.</p>
           <div class="mt-10 grid gap-4 text-white/85">
             <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
-              <div class="text-sm font-semibold uppercase tracking-[0.14em] text-white/60">Typical topics</div>
-              <div class="mt-2 text-sm leading-6">Enterprise architecture, AI strategy, governance design, modernization roadmaps, and integration programs.</div>
+              <div class="text-sm font-semibold uppercase tracking-[0.14em] text-white/60">Typical conversations</div>
+              <div class="mt-2 text-sm leading-6">AI readiness, safe AI use, governance review, prototype delivery, board briefings, and learning cohorts.</div>
             </div>
             <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
               <div class="text-sm font-semibold uppercase tracking-[0.14em] text-white/60">Engagement style</div>
-              <div class="mt-2 text-sm leading-6">Advisory, discovery, roadmap design, architecture review, and executive briefing support.</div>
+              <div class="mt-2 text-sm leading-6">Advisory, discovery, readiness sprint, governance review, architecture design, and executive briefing.</div>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+              <div class="text-sm font-semibold uppercase tracking-[0.14em] text-white/60">Location</div>
+              <div class="mt-2 text-sm leading-6">Vancouver, BC / Remote</div>
             </div>
           </div>
         </div>
 
         <div class="glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-8">
           <div class="mb-6">
-            <h3 class="text-2xl font-semibold tracking-tight text-slate-950">Start a conversation</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-600">This single-page source includes a working front-end contact form with validation and a mailto handoff.</p>
+            <h3 class="text-2xl font-semibold tracking-tight text-slate-950">Get in touch</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Fill out the form below and we will follow up to schedule a short introductory call.</p>
           </div>
-
           <form id="contactForm" class="grid gap-5" novalidate>
             <div class="grid gap-5 md:grid-cols-2">
               <div>
@@ -383,74 +476,90 @@
                 <p class="mt-2 hidden text-sm text-red-600" data-error-for="email">Please enter a valid email address.</p>
               </div>
             </div>
-
             <div class="grid gap-5 md:grid-cols-2">
               <div>
-                <label for="company" class="mb-2 block text-sm font-semibold text-slate-800">Company</label>
-                <input id="company" name="company" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400" placeholder="Organization name" />
+                <label for="company" class="mb-2 block text-sm font-semibold text-slate-800">Organisation</label>
+                <input id="company" name="company" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400" placeholder="Organisation name" />
               </div>
               <div>
                 <label for="service" class="mb-2 block text-sm font-semibold text-slate-800">Service area</label>
                 <select id="service" name="service" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400">
                   <option value="">Select a service</option>
-                  <option>Enterprise Architecture & Platform Strategy</option>
-                  <option>Regulatory & Risk-Aligned Design</option>
-                  <option>AI Strategy & Applied Implementation</option>
-                  <option>Complex Systems Integration</option>
-                  <option>Operating Model & Governance Design</option>
-                  <option>Strategic Communication & Stakeholder Alignment</option>
+                  <option>Safe AI Use Workshop</option>
+                  <option>AI Readiness &amp; Opportunity Sprint</option>
+                  <option>AI Governance &amp; Security Review</option>
+                  <option>AI-Assisted Delivery Lab</option>
+                  <option>Trusted AI Communications &amp; Public Risk Briefing</option>
+                  <option>Sliding-Scale AI Learning Cohorts</option>
+                  <option>Other / not sure yet</option>
                 </select>
               </div>
             </div>
-
-            <div>
-              <label for="timeline" class="mb-2 block text-sm font-semibold text-slate-800">Timeline</label>
-              <input id="timeline" name="timeline" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400" placeholder="For example: Immediate, this quarter, exploratory" />
+            <div class="grid gap-5 md:grid-cols-2">
+              <div>
+                <label for="budget" class="mb-2 block text-sm font-semibold text-slate-800">Budget range</label>
+                <select id="budget" name="budget" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400">
+                  <option value="">Select a range</option>
+                  <option>Under $5,000</option>
+                  <option>$5,000&ndash;$15,000</option>
+                  <option>$15,000&ndash;$35,000</option>
+                  <option>$35,000+</option>
+                  <option>Sliding-scale / nonprofit inquiry</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div>
+                <label for="timeline" class="mb-2 block text-sm font-semibold text-slate-800">Timeline</label>
+                <input id="timeline" name="timeline" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400" placeholder="Immediate, this quarter, exploratory" />
+              </div>
             </div>
-
             <div>
               <label for="message" class="mb-2 block text-sm font-semibold text-slate-800">Project details</label>
-              <textarea id="message" name="message" rows="6" required class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400" placeholder="Tell us about your challenge, goals, and context."></textarea>
+              <textarea id="message" name="message" rows="5" required class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400" placeholder="Tell us about your challenge, goals, and context."></textarea>
               <p class="mt-2 hidden text-sm text-red-600" data-error-for="message">Please add a short description of your project.</p>
             </div>
-
             <div class="flex flex-wrap items-center gap-3 pt-2">
               <button type="submit" class="inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-blue-700">Prepare email inquiry</button>
               <button type="button" id="copySummaryButton" class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5">Copy inquiry summary</button>
             </div>
-
             <div id="formStatus" class="hidden rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"></div>
           </form>
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="px-4 pb-8 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-3 border-t border-slate-200 py-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
-      <div>© 2026 RO IT Systems. All rights reserved.</div>
-      <div>Enterprise architecture • AI strategy • governance • systems integration</div>
+    <div class="mx-auto max-w-7xl border-t border-slate-200 py-6">
+      <div class="flex flex-col gap-3 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
+        <div>
+          <div class="font-semibold text-slate-700">RO IT Systems</div>
+          <div>Responsible AI &bull; Data Governance &bull; Platform Consulting</div>
+          <div>Vancouver, BC / Remote</div>
+        </div>
+        <div class="flex flex-col gap-1 md:items-end">
+          <div>&copy; 2026 RO IT Systems. All rights reserved.</div>
+          <a href="mailto:m.oger@roitsystems.ca" class="text-blue-700 hover:underline">m.oger@roitsystems.ca</a>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script>
-    const routes = ["home", "services", "results", "about", "insights", "contact"];
+    const routes = ["home", "trust", "services", "outcomes", "about", "insights", "contact"];
 
     function renderRoute(routeName) {
       const target = routes.includes(routeName) ? routeName : "home";
-
       document.querySelectorAll('.page-view').forEach((section) => {
         section.classList.toggle('active', section.id === target);
       });
-
       document.querySelectorAll('.page-link').forEach((link) => {
         link.classList.toggle('active', link.dataset.route === target);
       });
-
       if (location.hash !== `#${target}`) {
         history.replaceState(null, '', `#${target}`);
       }
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -461,22 +570,17 @@
       if (!route) return;
       event.preventDefault();
       renderRoute(route);
-      const mobileMenu = document.getElementById('mobileMenu');
-      mobileMenu.classList.add('hidden');
+      document.getElementById('mobileMenu').classList.add('hidden');
     }
 
     document.addEventListener('click', handleNavigation);
     window.addEventListener('hashchange', () => {
-      const route = location.hash.replace('#', '') || 'home';
-      renderRoute(route);
+      renderRoute(location.hash.replace('#', '') || 'home');
     });
-
     renderRoute(location.hash.replace('#', '') || 'home');
 
-    const mobileMenuButton = document.getElementById('mobileMenuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+    document.getElementById('mobileMenuButton').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 
     const form = document.getElementById('contactForm');
@@ -494,13 +598,11 @@
       const email = document.getElementById('email');
       const message = document.getElementById('message');
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
       const checks = [
         { field: name, ok: name.value.trim().length > 0 },
         { field: email, ok: emailPattern.test(email.value.trim()) },
         { field: message, ok: message.value.trim().length > 0 },
       ];
-
       checks.forEach(({ field, ok }) => {
         const error = document.querySelector(`[data-error-for="${field.name}"]`);
         if (ok) {
@@ -512,7 +614,6 @@
           error.classList.remove('hidden');
         }
       });
-
       return valid;
     }
 
@@ -522,16 +623,17 @@
       const email = escapeLine(formData.get('email'));
       const company = escapeLine(formData.get('company'));
       const service = escapeLine(formData.get('service'));
+      const budget = escapeLine(formData.get('budget'));
       const timeline = escapeLine(formData.get('timeline'));
       const message = String(formData.get('message') || '').trim();
-
       return [
         'RO IT Systems Inquiry',
         '',
         `Name: ${name || 'Not provided'}`,
         `Email: ${email || 'Not provided'}`,
-        `Company: ${company || 'Not provided'}`,
+        `Organisation: ${company || 'Not provided'}`,
         `Service area: ${service || 'Not selected'}`,
+        `Budget range: ${budget || 'Not provided'}`,
         `Timeline: ${timeline || 'Not provided'}`,
         '',
         'Project details:',
@@ -543,20 +645,17 @@
       event.preventDefault();
       statusBox.classList.add('hidden');
       statusBox.textContent = '';
-
       if (!validateForm()) {
         statusBox.className = 'rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700';
         statusBox.textContent = 'Please correct the highlighted fields and try again.';
         statusBox.classList.remove('hidden');
         return;
       }
-
       const formData = new FormData(form);
       const subjectBase = formData.get('service') || 'Consulting inquiry';
       const subject = encodeURIComponent(`RO IT Systems | ${subjectBase}`);
       const body = encodeURIComponent(buildInquirySummary());
       window.location.href = `mailto:${destinationEmail}?subject=${subject}&body=${body}`;
-
       statusBox.className = 'rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800';
       statusBox.textContent = 'Your email client should open with a prepared inquiry.';
       statusBox.classList.remove('hidden');
@@ -570,14 +669,12 @@
         statusBox.classList.remove('hidden');
         return;
       }
-
-      const summary = buildInquirySummary();
       try {
-        await navigator.clipboard.writeText(summary);
+        await navigator.clipboard.writeText(buildInquirySummary());
         statusBox.className = 'rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800';
         statusBox.textContent = 'Inquiry summary copied to clipboard.';
         statusBox.classList.remove('hidden');
-      } catch (error) {
+      } catch {
         statusBox.className = 'rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800';
         statusBox.textContent = 'Clipboard copy was blocked by the browser. You can still submit to open your email client.';
         statusBox.classList.remove('hidden');
