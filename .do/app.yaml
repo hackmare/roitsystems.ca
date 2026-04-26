@@ -1,0 +1,17 @@
+name: roitsystems-ca
+region: tor
+services:
+  - name: web
+    source_dir: /
+    github:
+      repo: hackmare/roitsystems.ca
+      branch: main
+      deploy_on_push: true
+    run_command: node server.js
+    build_command: npm install --production
+    environment_slug: node-js
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    http_port: 8080
+    routes:
+      - path: /
