@@ -1,6 +1,6 @@
 # Building Small, Secure Infrastructure for Event Processing
 
-## How RO IT Systems vibe-coded the hardening of our publicfacing website and private message-ingestion stack.
+## How RO IT Systems vibe-coded the hardening of our public-facing website and private message-ingestion stack.
 
 We cannot always talk about what we do for clients.
 
