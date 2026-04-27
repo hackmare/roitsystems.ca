@@ -473,10 +473,6 @@
               <div class="text-sm font-semibold uppercase tracking-[0.14em] text-white/60">How we engage</div>
               <div class="mt-2 text-sm leading-6">Advisory, sprint, review, prototype, or briefing—scoped after we understand the problem.</div>
             </div>
-            <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
-              <div class="text-sm font-semibold uppercase tracking-[0.14em] text-white/60">Location</div>
-              <div class="mt-2 text-sm leading-6">Vancouver, BC / Remote &mdash; serving Canada, US, EU, and Australia.</div>
-            </div>
           </div>
         </div>
 
@@ -569,7 +565,7 @@
         </div>
         <div class="flex flex-col gap-1 md:items-end">
           <div>&copy; 2026 RO IT Systems. All rights reserved.</div>
-          <a href="mailto:m.oger@roitsystems.ca" class="text-blue-700 hover:underline">m.oger@roitsystems.ca</a>
+          <a href="mailto:info@roitsystems.ca" class="text-blue-700 hover:underline">info@roitsystems.ca</a>
         </div>
       </div>
     </div>
@@ -698,7 +694,7 @@
         const subjectBase = escapeLine(formData.get('service')) || 'Consulting inquiry';
         const subject = encodeURIComponent(`RO IT Systems | ${subjectBase}`);
         const body = encodeURIComponent(buildInquirySummary());
-        window.location.href = `mailto:m.oger@roitsystems.ca?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:info@roitsystems.ca?subject=${subject}&body=${body}`;
         showStatus('success', 'Your email client should open with a prepared inquiry.');
         return;
       }
