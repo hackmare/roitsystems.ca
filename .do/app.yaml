@@ -13,5 +13,9 @@ services:
     instance_count: 1
     instance_size_slug: apps-s-1vcpu-0.5gb
     http_port: 8080
+    envs:
+      - key: API_BASE_URL
+        value: https://pubapi.roitsystems.ca
+        scope: RUN_TIME
     routes:
       - path: /

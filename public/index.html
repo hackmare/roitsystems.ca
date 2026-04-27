@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RO IT Systems | Serious Systems. Clear Decisions. Responsible AI.</title>
   <meta name="description" content="Enterprise consulting for AI readiness, data governance, platform modernisation, and complex systems integration. Practical advice for CIOs, CTOs, and boards in high-stakes environments." />
+  <script src="/config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -490,6 +491,11 @@
             <p class="mt-2 text-sm leading-6 text-slate-600">Complete the form and we will be in touch within one business day.</p>
           </div>
           <form id="contactForm" class="grid gap-5" novalidate>
+            <!-- Honeypot: hidden from real users; bots fill it in -->
+            <div style="position:absolute;left:-9999px;top:-9999px;visibility:hidden;" aria-hidden="true">
+              <label for="hp">Leave this empty</label>
+              <input id="hp" name="hp" type="text" tabindex="-1" autocomplete="off" />
+            </div>
             <div class="grid gap-5 md:grid-cols-2">
               <div>
                 <label for="name" class="mb-2 block text-sm font-semibold text-slate-800">Name</label>
@@ -614,7 +620,7 @@
     const form = document.getElementById('contactForm');
     const statusBox = document.getElementById('formStatus');
     const copySummaryButton = document.getElementById('copySummaryButton');
-    const destinationEmail = 'm.oger@roitsystems.ca';
+    const submitButton = form.querySelector('[type="submit"]');
 
     function escapeLine(value) {
       return String(value || '').replace(/\r?\n/g, ' ').trim();
@@ -629,17 +635,17 @@
       const checks = [
         { field: name, ok: name.value.trim().length > 0 },
         { field: email, ok: emailPattern.test(email.value.trim()) },
-        { field: message, ok: message.value.trim().length > 0 },
+        { field: message, ok: message.value.trim().length >= 10 },
       ];
       checks.forEach(({ field, ok }) => {
         const error = document.querySelector(`[data-error-for="${field.name}"]`);
         if (ok) {
           field.classList.remove('border-red-400');
-          error.classList.add('hidden');
+          error?.classList.add('hidden');
         } else {
           valid = false;
           field.classList.add('border-red-400');
-          error.classList.remove('hidden');
+          error?.classList.remove('hidden');
         }
       });
       return valid;
@@ -669,43 +675,89 @@
       ].join('\n');
     }
 
-    form.addEventListener('submit', (event) => {
+    function showStatus(type, text) {
+      const classes = {
+        success: 'rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800',
+        error:   'rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700',
+        warn:    'rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800',
+      };
+      statusBox.className = classes[type];
+      statusBox.textContent = text;
+      statusBox.classList.remove('hidden');
+    }
+
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       statusBox.classList.add('hidden');
-      statusBox.textContent = '';
+
       if (!validateForm()) {
-        statusBox.className = 'rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700';
-        statusBox.textContent = 'Please correct the highlighted fields and try again.';
-        statusBox.classList.remove('hidden');
+        showStatus('error', 'Please correct the highlighted fields and try again.');
         return;
       }
+
       const formData = new FormData(form);
-      const subjectBase = formData.get('service') || 'Consulting inquiry';
-      const subject = encodeURIComponent(`RO IT Systems | ${subjectBase}`);
-      const body = encodeURIComponent(buildInquirySummary());
-      window.location.href = `mailto:${destinationEmail}?subject=${subject}&body=${body}`;
-      statusBox.className = 'rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800';
-      statusBox.textContent = 'Your email client should open with a prepared inquiry.';
-      statusBox.classList.remove('hidden');
+      const apiBaseUrl = (window.__ROIT_CONFIG__ && window.__ROIT_CONFIG__.apiBaseUrl) || '';
+
+      if (!apiBaseUrl) {
+        // API not configured — fall back to mailto so submissions are never lost
+        const subjectBase = escapeLine(formData.get('service')) || 'Consulting inquiry';
+        const subject = encodeURIComponent(`RO IT Systems | ${subjectBase}`);
+        const body = encodeURIComponent(buildInquirySummary());
+        window.location.href = `mailto:m.oger@roitsystems.ca?subject=${subject}&body=${body}`;
+        showStatus('success', 'Your email client should open with a prepared inquiry.');
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending…';
+
+      try {
+        const payload = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          company: formData.get('company') || undefined,
+          subject: escapeLine(formData.get('service')) || 'Consulting inquiry',
+          message: formData.get('message'),
+          budget: formData.get('budget') || undefined,
+          timeline: formData.get('timeline') || undefined,
+          source_page: location.href,
+          timestamp: new Date().toISOString(),
+          hp: formData.get('hp') || '',
+        };
+
+        const res = await fetch(`${apiBaseUrl}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          form.reset();
+          showStatus('success', 'Thank you — your inquiry has been received. We will be in touch within one business day.');
+        } else if (res.status === 429) {
+          showStatus('warn', 'Too many submissions. Please wait a few minutes and try again.');
+        } else {
+          showStatus('error', 'Something went wrong on our end. Please try again shortly.');
+        }
+      } catch {
+        showStatus('error', 'Unable to reach the server. Please check your connection and try again.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Send inquiry';
+      }
     });
 
     copySummaryButton.addEventListener('click', async () => {
       statusBox.classList.add('hidden');
       if (!validateForm()) {
-        statusBox.className = 'rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700';
-        statusBox.textContent = 'Please correct the highlighted fields before copying.';
-        statusBox.classList.remove('hidden');
+        showStatus('error', 'Please correct the highlighted fields before copying.');
         return;
       }
       try {
         await navigator.clipboard.writeText(buildInquirySummary());
-        statusBox.className = 'rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800';
-        statusBox.textContent = 'Inquiry summary copied to clipboard.';
-        statusBox.classList.remove('hidden');
+        showStatus('success', 'Inquiry summary copied to clipboard.');
       } catch {
-        statusBox.className = 'rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800';
-        statusBox.textContent = 'Clipboard copy was blocked by the browser. You can still submit to open your email client.';
-        statusBox.classList.remove('hidden');
+        showStatus('warn', 'Clipboard copy was blocked by the browser. Please submit the form directly.');
       }
     });
 
