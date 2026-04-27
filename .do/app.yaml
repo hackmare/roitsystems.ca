@@ -1,5 +1,8 @@
 name: roitsystems-ca
 region: tor
+domains:
+  - domain: roitsystems.ca
+    type: PRIMARY
 services:
   - name: web
     source_dir: /
