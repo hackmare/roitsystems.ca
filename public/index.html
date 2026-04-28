@@ -23,14 +23,13 @@
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
-    .hero-grid {
+    .hero-visual {
       background-image:
-        linear-gradient(to top, rgba(255,255,255,0.06), transparent),
-        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size: auto, 26px 26px, 26px 26px;
-      transform: perspective(600px) rotateX(74deg) scale(1.8) translateY(55px);
-      transform-origin: bottom;
+        linear-gradient(90deg, rgba(2, 6, 23, 0.94) 0%, rgba(15, 23, 42, 0.82) 34%, rgba(15, 23, 42, 0.26) 68%, rgba(15, 23, 42, 0.08) 100%),
+        url('/images/hero-enterprise-ai-governance.png');
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
     .page-link.active {
       background: rgb(241 245 249);
@@ -92,28 +91,20 @@
     <!-- HOME -->
     <section id="home" class="page-view active">
       <div class="px-4 pb-8 pt-6 sm:px-6 lg:px-8 lg:pt-10">
-        <div class="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-white/40 bg-gradient-to-br from-slate-950 via-blue-950 to-blue-600 shadow-[0_30px_100px_rgba(15,23,42,0.18)]">
+        <div class="hero-visual mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-white/40 shadow-[0_30px_100px_rgba(15,23,42,0.18)]">
           <div class="relative grid min-h-[680px] items-center lg:grid-cols-[1.1fr_0.9fr]">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(255,255,255,0.28),transparent_14%),radial-gradient(circle_at_83%_28%,rgba(191,219,254,0.18),transparent_24%),linear-gradient(to_top,rgba(255,255,255,0.06),transparent_30%)]"></div>
-            <div class="hero-grid absolute bottom-0 left-0 right-0 h-72 opacity-30"></div>
-            <div class="absolute right-10 top-10 hidden h-80 w-80 rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.95),rgba(255,255,255,0.34)_36%,rgba(255,255,255,0.08)_62%,transparent_74%)] opacity-90 blur-[1px] lg:block"></div>
-            <div class="absolute right-24 top-40 hidden rounded-3xl border border-white/15 bg-white/10 px-5 py-4 text-white/90 shadow-2xl backdrop-blur-md lg:block">
-              <div class="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Built for</div>
-              <div class="mt-1 text-base font-semibold">High-trust environments</div>
-            </div>
-            <div class="absolute bottom-28 right-16 hidden rounded-3xl border border-white/15 bg-white/10 px-5 py-4 text-white/90 shadow-2xl backdrop-blur-md lg:block">
-              <div class="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Consulting focus</div>
-              <div class="mt-1 text-base font-semibold">Responsible AI, data governance, and platform architecture.</div>
-            </div>
             <div class="relative z-10 px-6 py-12 sm:px-10 md:px-12 lg:px-16">
               <div class="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/85">
                 Enterprise AI &bull; Governance &bull; Platform Strategy
               </div>
               <h1 class="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-7xl">
-                Technology change is hard. We make it governable, buildable, and real.
+                AI adoption is unnerving.
               </h1>
+              <p class="mt-4 max-w-3xl text-2xl font-semibold tracking-tight text-white sm:text-3xl lg:text-4xl">
+                We make it governable, buildable, and real.
+              </p>
               <p class="mt-5 max-w-2xl text-base leading-7 text-white/80 sm:text-lg">
-                We work with executives and technology leaders navigating AI adoption, platform modernisation, and governance in complex, high-stakes environments.
+                Our engagements reduce risk, accelerate decisions, and turn complex change into trusted solutions. We help leaders adopt AI and modernise platforms with confidence in regulated environments.
               </p>
               <p class="mt-3 max-w-2xl rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm leading-6 text-white/90 backdrop-blur-sm">
                 Since 1999, the same discipline that built hardened, high-availability systems now shapes our approach to AI: confidentiality, integrity, availability, and real operational control.
@@ -148,7 +139,7 @@
           <div class="mb-8">
             <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">The problem we solve</div>
             <h2 class="mt-4 max-w-4xl text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">AI strategy breaks down in the messy middle.</h2>
-            <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">Most organisations have ambition, tools, and pressure to move. The hard part is turning that energy into accountable systems that can survive architecture, risk, procurement, and operations.</p>
+            <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">Most organisations have ambition, tools, and pressure to move. The real work is turning that energy into accountable systems that align opportunity, safety, and capability.</p>
           </div>
           <div class="grid gap-5 md:grid-cols-3">
             <article class="info-card glass rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
