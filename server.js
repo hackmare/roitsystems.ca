@@ -136,9 +136,23 @@ app.get('/blog/:path(*)', async (req, res) => {
           const content = await fs.readFile(fullPath, 'utf8');
           const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
 
-          // Get first sentence (look for first period after title)
-          const bodyStart = content.indexOf('\n\n');
-          const firstParagraph = bodyStart > -1 ? content.substring(bodyStart + 2).trim() : '';
+          // Get first sentence (look for first paragraph after title, skipping headings)
+          const lines = content.split('\n');
+          let firstParagraph = '';
+          let foundTitle = false;
+          
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('# ')) {
+              foundTitle = true;
+              continue;
+            }
+            if (foundTitle && trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
+              firstParagraph = trimmed.replace(/^#+\s*/, ''); // Remove heading markers
+              break;
+            }
+          }
+          
           const firstSentence = firstParagraph.split('.')[0] + (firstParagraph.includes('.') ? '.' : '');
 
           let date = '';
