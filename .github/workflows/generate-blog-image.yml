@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'blog/**/*.md'
+      - 'blog/**.md'
 
 jobs:
   generate-og-image:
@@ -29,7 +29,8 @@ jobs:
       - name: Find new or modified markdown files
         id: changed
         run: |
-          FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- 'blog/**/*.md' 2>/dev/null \
+          FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD 2>/dev/null \
+            | grep -E '^blog/.*\.md$' \
             || git show --name-only --pretty=format: HEAD | grep -E '^blog/.*\.md$')
           FILES=$(echo "$FILES" | tr '\n' ' ' | xargs)
           echo "files=$FILES" >> $GITHUB_OUTPUT
