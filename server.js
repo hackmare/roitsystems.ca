@@ -134,25 +134,29 @@ app.get('/api/blog', async (_req, res) => {
   }
 });
 
-// Serve blog post images (PNG only, same slug as the .md file)
-app.get('/blog/:path(*\\.png)', async (req, res) => {
-  const imgPath = path.join(__dirname, 'blog', req.params.path);
-  if (!imgPath.startsWith(path.join(__dirname, 'blog') + path.sep)) {
+// Serve blog posts (markdown → HTML) and sibling PNG images
+app.get('/blog/:path(*)', async (req, res) => {
+  const blogDir = path.join(__dirname, 'blog');
+  const requestedPath = req.params.path;
+  const resolvedPath = path.join(blogDir, requestedPath);
+
+  // Block path traversal
+  if (!resolvedPath.startsWith(blogDir + path.sep)) {
     return res.status(403).send('Forbidden');
   }
-  try {
-    await fs.access(imgPath);
-    res.type('image/png');
-    res.sendFile(imgPath);
-  } catch {
-    res.status(404).send('Not found');
-  }
-});
 
-// Serve blog markdown files as HTML
-app.get('/blog/:path(*)', async (req, res) => {
+  // Serve PNG images directly
+  if (requestedPath.endsWith('.png')) {
+    try {
+      await fs.access(resolvedPath);
+      return res.sendFile(resolvedPath);
+    } catch {
+      return res.status(404).send('Not found');
+    }
+  }
+
   try {
-    const filePath = path.join(__dirname, 'blog', req.params.path);
+    const filePath = resolvedPath;
     if (!filePath.endsWith('.md')) {
       return res.status(404).send('Not found');
     }
@@ -404,6 +408,7 @@ app.get('/blog/:path(*)', async (req, res) => {
       <!-- Main content -->
       <div class="lg:col-span-3">
         <article class="prose prose-slate max-w-none">
+          ${ogImageUrl ? `<img src="${ogImageUrl}" alt="${title}" class="w-full rounded-xl mb-8" style="max-height:420px;object-fit:cover;" />` : ''}
           ${htmlContent}
         </article>
         <div class="mt-8 pt-8 border-t border-slate-200">
