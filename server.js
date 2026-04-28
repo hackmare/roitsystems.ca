@@ -410,7 +410,7 @@ app.get('/blog/:path(*)', async (req, res) => {
       </a>
       <nav class="hidden items-center gap-1 md:flex">
         <a href="/" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Home</a>
-        <a href="/#trust" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Trust</a>
+        <a href="/#approach" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Approach</a>
         <a href="/#services" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Services</a>
         <a href="/#outcomes" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Outcomes</a>
         <a href="/#about" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">About</a>
