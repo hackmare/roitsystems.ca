@@ -232,10 +232,16 @@ app.get('/blog/:path(*)', async (req, res) => {
         ${htmlContent}
       </article>
       <div class="mt-8 pt-8 border-t border-slate-200">
-        <a href="/" class="inline-flex items-center gap-2 text-blue-900 hover:text-blue-700">
-          <i data-lucide="arrow-left" class="h-4 w-4"></i>
-          Back to home
-        </a>
+        <div class="flex gap-4">
+          <button onclick="history.back()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+            <i data-lucide="arrow-left" class="h-4 w-4"></i>
+            Back
+          </button>
+          <a href="/" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-900 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors">
+            <i data-lucide="home" class="h-4 w-4"></i>
+            Home
+          </a>
+        </div>
       </div>
     </div>
   </main>
