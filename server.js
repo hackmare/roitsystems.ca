@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs').promises;
 const { execSync } = require('child_process');
+const MarkdownIt = require('markdown-it');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -107,13 +108,149 @@ app.get('/api/blog', async (_req, res) => {
   }
 });
 
-// Serve blog markdown files
-app.get('/blog/:path(*)', (req, res) => {
-  const filePath = path.join(__dirname, 'blog', req.params.path);
-  if (filePath.endsWith('.md')) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).send('Not found');
+// Serve blog markdown files as HTML
+app.get('/blog/:path(*)', async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'blog', req.params.path);
+    if (!filePath.endsWith('.md')) {
+      return res.status(404).send('Not found');
+    }
+
+    const markdown = await fs.readFile(filePath, 'utf8');
+    const md = new MarkdownIt();
+    const htmlContent = md.render(markdown);
+
+    // Simple HTML template
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RO IT Systems | Blog</title>
+  <script src="/config.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(147, 197, 253, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.10), transparent 24%),
+        #f8fafc;
+    }
+    .prose {
+      max-width: none;
+    }
+    .prose h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .prose h2 {
+      font-size: 1.875rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .prose h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .prose p {
+      margin-bottom: 1rem;
+      line-height: 1.75;
+    }
+    .prose ul, .prose ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+    .prose li {
+      margin-bottom: 0.5rem;
+    }
+    .prose code {
+      background-color: #f1f5f9;
+      padding: 0.125rem 0.25rem;
+      border-radius: 0.25rem;
+      font-size: 0.875em;
+    }
+    .prose pre {
+      background-color: #f1f5f9;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .prose blockquote {
+      border-left: 4px solid #e2e8f0;
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+    .prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+    .prose th, .prose td {
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem;
+    }
+    .prose th {
+      background-color: #f8fafc;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900 antialiased">
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+      <a href="/" data-route="home" class="flex items-center gap-3 route-link">
+        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-900 to-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">RO</div>
+        <div>
+          <div class="text-lg font-semibold tracking-tight">RO IT Systems</div>
+          <div class="text-sm text-slate-500">Responsible AI &bull; Data Governance &bull; Platform Consulting &bull; Turnkey Agentic AI Solutions</div>
+        </div>
+      </a>
+      <nav class="hidden items-center gap-1 md:flex">
+        <a href="/" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Home</a>
+        <a href="/#trust" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Trust</a>
+        <a href="/#services" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Services</a>
+        <a href="/#outcomes" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Outcomes</a>
+        <a href="/#about" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">About</a>
+        <a href="/#insights" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Insights</a>
+        <a href="/#contact" class="page-link route-link rounded-full px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+      <article class="prose prose-slate max-w-none">
+        ${htmlContent}
+      </article>
+      <div class="mt-8 pt-8 border-t border-slate-200">
+        <a href="/" class="inline-flex items-center gap-2 text-blue-900 hover:text-blue-700">
+          <i data-lucide="arrow-left" class="h-4 w-4"></i>
+          Back to home
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>`;
+
+    res.type('text/html');
+    res.send(html);
+  } catch (error) {
+    console.error('Error serving blog post:', error);
+    res.status(404).send('Blog post not found');
   }
 });
 

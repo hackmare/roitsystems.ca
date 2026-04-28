@@ -23,7 +23,7 @@ It ties together:
 - OWASP Top 10 for LLMs: identify technical AI/LLM failure modes.
 - ISO 42001: make the whole thing auditable and accountable.
 
-In practice:
+In practice, this is how you can look at this:
 
 > ISO 27001 protects the environment.  
 > NIST helps classify and manage AI risk.  
