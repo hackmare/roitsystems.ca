@@ -2,8 +2,7 @@
 
 ISO/IEC 42001 is the international management-system standard for responsible AI. It defines how an organization establishes, maintains, and improves an AI management system. In simple terms: know what AI you use, understand its risks, control it, monitor it, and prove your work.  
 
-Sources: ISO describes ISO/IEC 42001 as a standard for responsible AI development, provision, and use; NIST frames AI risk around Govern, Map, Measure, and Manage; OWASP identifies key LLM security risks; ISO/IEC 27001 defines the information-security management foundation. 
- 
+Sources: ISO describes ISO/IEC 42001 as a standard for responsible AI development, provision, and use; NIST frames AI risk around Govern, Map, Measure, and Manage; OWASP identifies key LLM security risks; ISO/IEC 27001 defines the information-security management foundation.  
 References:  
 - ISO/IEC 42001: https://www.iso.org/standard/42001  
 - ISO/IEC 27001: https://www.iso.org/standard/27001  
