@@ -1,14 +1,34 @@
-name: Generate OG Image for Blog Posts
+name: Generate Blog Images
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Which posts to process"
+        type: choice
+        required: true
+        default: missing
+        options:
+          - missing
+          - all
+          - single
+      blog_file:
+        description: "Single Markdown file, used when mode is single. Example: blog/AI-Governance-Protects-Velocity.md"
+        type: string
+        required: false
+      force:
+        description: "Regenerate existing images"
+        type: boolean
+        required: true
+        default: false
   push:
     branches: [main]
     paths:
       - 'blog/**.md'
+      - 'scripts/generate-og-image.mjs'
 
 jobs:
-  generate-og-image:
+  generate-blog-images:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,13 +49,34 @@ jobs:
 
       - name: Find markdown files to process
         id: changed
+        shell: bash
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            # Manual run: process all blog posts that have no PNG yet
-            FILES=$(find blog -name '*.md' | while read f; do
-              png="${f%.md}.png"
-              [ ! -f "$png" ] && echo "$f"
-            done | tr '\n' ' ' | xargs)
+            MODE="${{ inputs.mode }}"
+            BLOG_FILE="${{ inputs.blog_file }}"
+            FORCE="${{ inputs.force }}"
+
+            if [ "$MODE" = "single" ]; then
+              if [ -z "$BLOG_FILE" ]; then
+                echo "mode=single requires blog_file" >&2
+                exit 1
+              fi
+              if [ ! -f "$BLOG_FILE" ]; then
+                echo "Blog file not found: $BLOG_FILE" >&2
+                exit 1
+              fi
+              FILES="$BLOG_FILE"
+            elif [ "$MODE" = "all" ] || [ "$FORCE" = "true" ]; then
+              FILES=$(find blog -name '*.md' | sort | tr '\n' ' ' | xargs)
+            else
+              FILES=$(find blog -name '*.md' | sort | while read f; do
+                slug=$(basename "${f%.md}" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')
+                dir="public/images/blog/$slug"
+                if [ ! -f "$dir/hero.png" ] || [ ! -f "$dir/card.png" ] || [ ! -f "$dir/social.png" ]; then
+                  echo "$f"
+                fi
+              done | tr '\n' ' ' | xargs)
+            fi
           else
             FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD 2>/dev/null \
               | grep -E '^blog/.*\.md$' \
@@ -49,12 +90,18 @@ jobs:
         if: steps.changed.outputs.files != ''
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node scripts/generate-og-image.mjs ${{ steps.changed.outputs.files }}
+        run: |
+          FORCE_FLAG=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.force }}" = "true" ]; then
+            FORCE_FLAG="--force"
+          fi
+          node scripts/generate-og-image.mjs $FORCE_FLAG ${{ steps.changed.outputs.files }}
 
       - name: Commit generated images
+        if: steps.changed.outputs.files != ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add $(find blog -name '*.png' 2>/dev/null) 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "chore: generate OG images for blog posts"
+          git add public/images/blog
+          git diff --cached --quiet || git commit -m "chore: generate blog images"
           git push

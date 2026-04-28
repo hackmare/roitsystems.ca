@@ -46,6 +46,89 @@ async function getGitDateOrMtime(fullPath) {
   return stats.mtime.toISOString();
 }
 
+function blogImageSlug(blogPath) {
+  return path.basename(blogPath, path.extname(blogPath))
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+async function fileExists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function getBlogImages(blogPath, absoluteUrlBase = '') {
+  const slug = blogImageSlug(blogPath);
+  const publicImageDir = path.join(__dirname, 'public', 'images', 'blog', slug);
+  const publicImageUrl = `/images/blog/${slug}`;
+  const images = {};
+
+  for (const variant of ['card', 'hero', 'social']) {
+    if (await fileExists(path.join(publicImageDir, `${variant}.png`))) {
+      images[variant] = `${absoluteUrlBase}${publicImageUrl}/${variant}.png`;
+    }
+  }
+
+  // Backward-compatible fallback for older generated sibling images.
+  const legacyImagePath = path.join(__dirname, 'blog', blogPath.replace(/\.md$/, '.png'));
+  if (await fileExists(legacyImagePath)) {
+    const legacyUrl = `${absoluteUrlBase}/blog/${blogUrlPath(blogPath.replace(/\.md$/, '.png'))}`;
+    images.card ??= legacyUrl;
+    images.hero ??= legacyUrl;
+    images.social ??= legacyUrl;
+  }
+
+  return images;
+}
+
+function extractMarkdownTitle(content) {
+  return content
+    .split('\n')
+    .find(line => line.trim().startsWith('# '))
+    ?.replace(/^#\s+/, '')
+    .trim() || 'Untitled';
+}
+
+function cleanMarkdownText(value) {
+  return String(value ?? '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[*_`[\]]/g, '')
+    .replace(/^#+\s*/, '')
+    .trim();
+}
+
+function extractTeaser(content) {
+  let foundTitle = false;
+
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('# ')) {
+      foundTitle = true;
+      continue;
+    }
+    if (
+      foundTitle &&
+      trimmed &&
+      !trimmed.startsWith('#') &&
+      !trimmed.startsWith('>') &&
+      !/^\*\*[^*]+\*\*$/.test(trimmed) &&
+      trimmed.length > 10
+    ) {
+      const firstParagraph = cleanMarkdownText(trimmed);
+      const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
+      const firstTwoSentences = sentences.slice(0, 2).join('.').trim();
+      return firstTwoSentences ? firstTwoSentences + (firstTwoSentences.endsWith('.') ? '' : '.') : '';
+    }
+  }
+
+  return '';
+}
+
 // DigitalOcean App Platform sits behind a load balancer; trust one proxy hop.
 app.set('trust proxy', 1);
 
@@ -118,36 +201,17 @@ app.get('/api/blog', async (_req, res) => {
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
           const blogPath = path.relative(blogDir, fullPath).split(path.sep).join('/');
           const content = await fs.readFile(fullPath, 'utf8');
-          const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
-
-          // Extract first paragraph (skip title)
-          const lines = content.split('\n');
-          let firstParagraph = '';
-          let foundTitle = false;
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (trimmed.startsWith('# ')) {
-              foundTitle = true;
-              continue;
-            }
-            if (foundTitle && trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
-              firstParagraph = trimmed.replace(/^#+\s*/, ''); // Remove heading markers
-              break;
-            }
-          }
-
-          // Extract first 2 sentences
-          const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
-          const firstTwoSentences = sentences.slice(0, 2).join('.').trim();
-          const teaser = firstTwoSentences ? firstTwoSentences + (firstTwoSentences.endsWith('.') ? '' : '.') : '';
+          const title = extractMarkdownTitle(content);
+          const teaser = extractTeaser(content);
 
           // Calculate read time (approximately 200 words per minute)
           const wordCount = content.split(/\s+/).length;
           const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
           const date = await getGitDateOrMtime(fullPath);
+          const images = await getBlogImages(blogPath);
           if (!sections[section]) sections[section] = [];
-          sections[section].push({ title, date, path: blogPath, teaser, readTimeMinutes });
+          sections[section].push({ title, date, path: blogPath, teaser, readTimeMinutes, images });
         }
       }
     }
@@ -160,7 +224,7 @@ app.get('/api/blog', async (_req, res) => {
   }
 });
 
-// Serve blog posts (markdown → HTML) and sibling PNG images
+// Serve blog posts (markdown → HTML) and legacy sibling PNG images
 app.get('/blog/:path(*)', async (req, res) => {
   const blogDir = path.join(__dirname, 'blog');
   const requestedPath = req.params.path;
@@ -192,33 +256,16 @@ app.get('/blog/:path(*)', async (req, res) => {
     const htmlContent = md.render(markdown);
 
     // Extract title from markdown
-    const title = markdown.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
-
-    // Extract first 2 sentences for OG description
-    let firstParagraph = '';
-    let foundTitle = false;
-    for (const line of markdown.split('\n')) {
-      const trimmed = line.trim();
-      if (trimmed.startsWith('# ')) { foundTitle = true; continue; }
-      if (foundTitle && trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
-        firstParagraph = trimmed.replace(/[*_`[\]]/g, '');
-        break;
-      }
-    }
-    const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
-    const ogDescription = sentences.slice(0, 2).join('.').trim() + (sentences.length >= 2 ? '.' : '') + ' Read more...';
+    const title = extractMarkdownTitle(markdown);
+    const ogDescription = `${extractTeaser(markdown)} Read more...`;
 
     // Construct current URL for sharing
     const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 
-    // Check for sibling OG image (same path as .md but .png)
-    const imgRelPath = req.params.path.replace(/\.md$/, '.png');
-    const imgFilePath = path.join(__dirname, 'blog', imgRelPath);
-    let ogImageUrl = null;
-    try {
-      await fs.access(imgFilePath);
-      ogImageUrl = `${req.protocol}://${req.get('host')}/blog/${imgRelPath}`;
-    } catch { /* no image — omit og:image */ }
+    const absoluteUrlBase = `${req.protocol}://${req.get('host')}`;
+    const blogImages = await getBlogImages(req.params.path, absoluteUrlBase);
+    const ogImageUrl = blogImages.social || null;
+    const heroImageUrl = blogImages.hero || null;
 
     // Get recent blog posts for sidebar
     const blogDir = path.join(__dirname, 'blog');
@@ -233,37 +280,17 @@ app.get('/blog/:path(*)', async (req, res) => {
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
           const blogPath = path.relative(blogDir, fullPath).split(path.sep).join('/');
           const content = await fs.readFile(fullPath, 'utf8');
-          const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
-
-          // Get first 2 sentences (look for first paragraph after title, skipping headings)
-          const lines = content.split('\n');
-          let firstParagraph = '';
-          let foundTitle = false;
-          
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (trimmed.startsWith('# ')) {
-              foundTitle = true;
-              continue;
-            }
-            if (foundTitle && trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
-              firstParagraph = trimmed.replace(/^#+\s*/, ''); // Remove heading markers
-              break;
-            }
-          }
-          
-          // Extract first 2 sentences
-          const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
-          const firstTwoSentences = sentences.slice(0, 2).join('.').trim();
-          const teaser = firstTwoSentences ? firstTwoSentences + (firstTwoSentences.endsWith('.') ? '' : '.') : '';
+          const title = extractMarkdownTitle(content);
+          const teaser = extractTeaser(content);
 
           // Calculate read time (approximately 200 words per minute)
           const wordCount = content.split(/\s+/).length;
           const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
           const date = await getGitDateOrMtime(fullPath);
+          const images = await getBlogImages(blogPath);
 
-          recentPosts.push({ title, date, path: blogPath, teaser, readTimeMinutes });
+          recentPosts.push({ title, date, path: blogPath, teaser, readTimeMinutes, images });
         }
       }
     }
@@ -435,7 +462,7 @@ app.get('/blog/:path(*)', async (req, res) => {
       <!-- Main content -->
       <div class="lg:col-span-3">
         <article class="prose prose-slate max-w-none">
-          ${ogImageUrl ? `<img src="${escapeHtml(ogImageUrl)}" alt="${escapeHtml(title)}" class="w-full rounded-xl mb-8" style="max-height:420px;object-fit:cover;" />` : ''}
+          ${heroImageUrl ? `<img src="${escapeHtml(heroImageUrl)}" alt="${escapeHtml(title)}" class="w-full rounded-xl mb-8" style="max-height:420px;object-fit:cover;" />` : ''}
           ${htmlContent}
         </article>
         <div class="mt-8 pt-8 border-t border-slate-200">
