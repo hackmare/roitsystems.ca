@@ -134,6 +134,21 @@ app.get('/api/blog', async (_req, res) => {
   }
 });
 
+// Serve blog post images (PNG only, same slug as the .md file)
+app.get('/blog/:path(*\\.png)', async (req, res) => {
+  const imgPath = path.join(__dirname, 'blog', req.params.path);
+  if (!imgPath.startsWith(path.join(__dirname, 'blog') + path.sep)) {
+    return res.status(403).send('Forbidden');
+  }
+  try {
+    await fs.access(imgPath);
+    res.type('image/png');
+    res.sendFile(imgPath);
+  } catch {
+    res.status(404).send('Not found');
+  }
+});
+
 // Serve blog markdown files as HTML
 app.get('/blog/:path(*)', async (req, res) => {
   try {
@@ -148,9 +163,32 @@ app.get('/blog/:path(*)', async (req, res) => {
 
     // Extract title from markdown
     const title = markdown.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
-    
+
+    // Extract first 2 sentences for OG description
+    let firstParagraph = '';
+    let foundTitle = false;
+    for (const line of markdown.split('\n')) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('# ')) { foundTitle = true; continue; }
+      if (foundTitle && trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
+        firstParagraph = trimmed.replace(/[*_`[\]]/g, '');
+        break;
+      }
+    }
+    const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
+    const ogDescription = sentences.slice(0, 2).join('.').trim() + (sentences.length >= 2 ? '.' : '') + ' Read more...';
+
     // Construct current URL for sharing
     const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+
+    // Check for sibling OG image (same path as .md but .png)
+    const imgRelPath = req.params.path.replace(/\.md$/, '.png');
+    const imgFilePath = path.join(__dirname, 'blog', imgRelPath);
+    let ogImageUrl = null;
+    try {
+      await fs.access(imgFilePath);
+      ogImageUrl = `${req.protocol}://${req.get('host')}/blog/${imgRelPath}`;
+    } catch { /* no image — omit og:image */ }
 
     // Get recent blog posts for sidebar
     const blogDir = path.join(__dirname, 'blog');
@@ -229,7 +267,17 @@ app.get('/blog/:path(*)', async (req, res) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RO IT Systems | Blog</title>
+  <title>${title} | RO IT Systems</title>
+  <meta name="description" content="${ogDescription}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="${title}" />
+  <meta property="og:description" content="${ogDescription}" />
+  <meta property="og:url" content="${currentUrl}" />
+  ${ogImageUrl ? `<meta property="og:image" content="${ogImageUrl}" />` : ''}
+  <meta name="twitter:card" content="${ogImageUrl ? 'summary_large_image' : 'summary'}" />
+  <meta name="twitter:title" content="${title}" />
+  <meta name="twitter:description" content="${ogDescription}" />
+  ${ogImageUrl ? `<meta name="twitter:image" content="${ogImageUrl}" />` : ''}
   <script src="/config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -372,7 +420,7 @@ app.get('/blog/:path(*)', async (req, res) => {
           <div class="mt-6 pt-6 border-t border-slate-100">
             <h4 class="text-sm font-semibold text-slate-900 mb-3">Share this post</h4>
             <div class="flex gap-3">
-              <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+              <a href="https://www.facebook.com/dialog/share?href=${encodeURIComponent(currentUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
                 <i data-lucide="facebook" class="h-4 w-4"></i>
                 Facebook
               </a>
