@@ -4,6 +4,8 @@ const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const fs = require('fs').promises;
+const { execSync } = require('child_process');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -64,6 +66,55 @@ app.get('/config.js', (_req, res) => {
   const apiBaseUrl = process.env.API_BASE_URL || '';
   res.type('application/javascript');
   res.send(`window.__ROIT_CONFIG__ = { apiBaseUrl: ${JSON.stringify(apiBaseUrl)} };`);
+});
+
+// Blog API: scan /blog directory and return metadata for markdown files
+app.get('/api/blog', async (_req, res) => {
+  try {
+    const blogDir = path.join(__dirname, 'blog');
+    const sections = {};
+
+    async function processDirectory(dir, section = '') {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          await processDirectory(fullPath, entry.name);
+        } else if (entry.isFile() && entry.name.endsWith('.md')) {
+          const gitPath = path.relative(__dirname, fullPath);
+          const blogPath = path.relative(blogDir, fullPath);
+          const content = await fs.readFile(fullPath, 'utf8');
+          const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
+          let date = '';
+          try {
+            date = execSync(`git log --follow --format="%ai" -- "${gitPath}" | head -1`, { cwd: __dirname, encoding: 'utf8' }).trim();
+          } catch (e) {
+            // Fallback to file mtime if git fails
+            const stats = await fs.stat(fullPath);
+            date = stats.mtime.toISOString();
+          }
+          if (!sections[section]) sections[section] = [];
+          sections[section].push({ title, date, path: blogPath });
+        }
+      }
+    }
+
+    await processDirectory(blogDir);
+    res.json({ sections });
+  } catch (error) {
+    console.error('Error fetching blog data:', error);
+    res.status(500).json({ error: 'Failed to fetch blog data' });
+  }
+});
+
+// Serve blog markdown files
+app.get('/blog/:path(*)', (req, res) => {
+  const filePath = path.join(__dirname, 'blog', req.params.path);
+  if (filePath.endsWith('.md')) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('Not found');
+  }
 });
 
 // Static assets. dotfiles (like .env) are denied by the 'deny' default.

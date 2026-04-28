@@ -454,6 +454,17 @@
             <a href="#contact" data-route="contact" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Discuss this topic <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
           </article>
         </div>
+
+        <!-- BLOG -->
+        <div class="mt-12">
+          <div class="mb-8">
+            <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">Blog</div>
+            <h3 class="mt-4 text-2xl font-semibold tracking-tight text-slate-950">Latest insights</h3>
+          </div>
+          <div id="blog-posts" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Blog posts will be loaded here -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -751,6 +762,40 @@
         showStatus('warn', 'Clipboard copy was blocked by the browser. Please submit the form directly.');
       }
     });
+
+    // Load and render blog posts
+    async function loadBlogPosts() {
+      try {
+        const response = await fetch('/api/blog');
+        const data = await response.json();
+        const allPosts = [];
+        for (const section in data.sections) {
+          data.sections[section].forEach(post => {
+            allPosts.push({ ...post, section });
+          });
+        }
+        allPosts.sort((a, b) => {
+          const dateA = a.date ? new Date(a.date) : new Date(0);
+          const dateB = b.date ? new Date(b.date) : new Date(0);
+          return dateB - dateA;
+        });
+        const recentPosts = allPosts.slice(0, 3);
+        const blogContainer = document.getElementById('blog-posts');
+        blogContainer.innerHTML = recentPosts.map(post => `
+          <article class="insight-card glass flex min-h-[260px] flex-col rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+            <div class="text-sm font-semibold text-slate-500">${post.section || 'Blog'}</div>
+            <h4 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">${post.title}</h4>
+            <p class="mt-3 text-sm leading-6 text-slate-600">${new Date(post.date).toLocaleDateString()}</p>
+            <a href="/blog/${post.path}" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Read more <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+          </article>
+        `).join('');
+        lucide.createIcons();
+      } catch (error) {
+        console.error('Failed to load blog posts:', error);
+      }
+    }
+
+    loadBlogPosts();
 
     lucide.createIcons();
   </script>
