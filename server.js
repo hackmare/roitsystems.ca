@@ -255,6 +255,16 @@ app.get('/blog/:path(*)', async (req, res) => {
     const markdown = await fs.readFile(filePath, 'utf8');
     const md = new MarkdownIt({ linkify: true });
     const defaultFence = md.renderer.rules.fence || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
+    const defaultTableOpen = md.renderer.rules.table_open || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
+    const defaultTableClose = md.renderer.rules.table_close || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
+
+    md.renderer.rules.table_open = (tokens, idx, options, env, self) => {
+      tokens[idx].attrJoin('class', 'content-table');
+      return `<div class="table-frame">${defaultTableOpen(tokens, idx, options, env, self)}`;
+    };
+    md.renderer.rules.table_close = (tokens, idx, options, env, self) => {
+      return `${defaultTableClose(tokens, idx, options, env, self)}</div>`;
+    };
     md.renderer.rules.fence = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
       const lang = token.info.trim().split(/\s+/)[0].toLowerCase();
@@ -436,18 +446,58 @@ app.get('/blog/:path(*)', async (req, res) => {
       margin-bottom: 1rem;
       font-style: italic;
     }
-    .prose table {
+    .prose .table-frame {
+      margin: 2rem 0;
+      overflow-x: auto;
+      border: 1px solid #dbeafe;
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.07);
+    }
+    .prose table.content-table {
       width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1rem;
+      min-width: 680px;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.55;
     }
-    .prose th, .prose td {
-      border: 1px solid #e2e8f0;
-      padding: 0.5rem;
+    .prose table.content-table th,
+    .prose table.content-table td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      vertical-align: top;
     }
-    .prose th {
-      background-color: #f8fafc;
+    .prose table.content-table th {
+      background: #f8fafc;
+      color: #0f172a;
       font-weight: 600;
+      white-space: nowrap;
+    }
+    .prose table.content-table tbody tr:nth-child(even) {
+      background: rgba(248, 250, 252, 0.72);
+    }
+    .prose table.content-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+    .prose table.content-table code {
+      white-space: nowrap;
+    }
+    @media (max-width: 640px) {
+      .prose .table-frame {
+        margin: 1.5rem -0.25rem;
+        border-radius: 0.5rem;
+      }
+      .prose table.content-table {
+        min-width: 620px;
+        font-size: 0.875rem;
+      }
+      .prose table.content-table th,
+      .prose table.content-table td {
+        padding: 0.75rem 0.85rem;
+      }
     }
     .line-clamp-2 {
       display: -webkit-box;

@@ -851,9 +851,8 @@
           const dateB = b.date ? new Date(b.date) : new Date(0);
           return dateB - dateA;
         });
-        const recentPosts = allPosts.slice(0, 3);
         const blogContainer = document.getElementById('blog-posts');
-        blogContainer.innerHTML = recentPosts.map(post => `
+        blogContainer.innerHTML = allPosts.map(post => `
           <article class="insight-card glass overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:flex">
             <a href="/blog/${blogUrlPath(post.path)}" class="block h-52 bg-slate-900 sm:h-auto sm:w-64 sm:shrink-0">
               ${post.images?.card
