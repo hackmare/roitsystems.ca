@@ -5,11 +5,46 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs').promises;
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const MarkdownIt = require('markdown-it');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+const DEFAULT_API_BASE_URL = 'https://pubapi.roitsystems.ca';
+const API_BASE_URL = process.env.API_BASE_URL || DEFAULT_API_BASE_URL;
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function blogUrlPath(value) {
+  return String(value ?? '')
+    .split(/[\\/]+/)
+    .map(encodeURIComponent)
+    .join('/');
+}
+
+async function getGitDateOrMtime(fullPath) {
+  const gitPath = path.relative(__dirname, fullPath);
+  try {
+    const date = execFileSync(
+      'git',
+      ['log', '--follow', '-1', '--format=%ai', '--', gitPath],
+      { cwd: __dirname, encoding: 'utf8' },
+    ).trim();
+    if (date) return date;
+  } catch {
+    // Fallback to file mtime if git is unavailable in the runtime image.
+  }
+
+  const stats = await fs.stat(fullPath);
+  return stats.mtime.toISOString();
+}
 
 // DigitalOcean App Platform sits behind a load balancer; trust one proxy hop.
 app.set('trust proxy', 1);
@@ -34,7 +69,7 @@ app.use(
         fontSrc: ["'self'"],
         connectSrc: [
           "'self'",
-          process.env.API_BASE_URL || 'https://pubapi.roitsystems.ca',
+          API_BASE_URL,
         ],
         frameAncestors: ["'none'"],
         baseUri: ["'self'"],
@@ -64,9 +99,8 @@ app.use(express.json({ limit: '10kb' }));
 // Expose runtime config to the browser without baking secrets into HTML.
 // Set API_BASE_URL in the environment before starting.
 app.get('/config.js', (_req, res) => {
-  const apiBaseUrl = process.env.API_BASE_URL || '';
   res.type('application/javascript');
-  res.send(`window.__ROIT_CONFIG__ = { apiBaseUrl: ${JSON.stringify(apiBaseUrl)} };`);
+  res.send(`window.__ROIT_CONFIG__ = { apiBaseUrl: ${JSON.stringify(API_BASE_URL)} };`);
 });
 
 // Blog API: scan /blog directory and return metadata for markdown files
@@ -82,8 +116,7 @@ app.get('/api/blog', async (_req, res) => {
         if (entry.isDirectory()) {
           await processDirectory(fullPath, entry.name);
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
-          const gitPath = path.relative(__dirname, fullPath);
-          const blogPath = path.relative(blogDir, fullPath);
+          const blogPath = path.relative(blogDir, fullPath).split(path.sep).join('/');
           const content = await fs.readFile(fullPath, 'utf8');
           const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
 
@@ -112,14 +145,7 @@ app.get('/api/blog', async (_req, res) => {
           const wordCount = content.split(/\s+/).length;
           const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
-          let date = '';
-          try {
-            date = execSync(`git log --follow --format="%ai" -- "${gitPath}" | head -1`, { cwd: __dirname, encoding: 'utf8' }).trim();
-          } catch (e) {
-            // Fallback to file mtime if git fails
-            const stats = await fs.stat(fullPath);
-            date = stats.mtime.toISOString();
-          }
+          const date = await getGitDateOrMtime(fullPath);
           if (!sections[section]) sections[section] = [];
           sections[section].push({ title, date, path: blogPath, teaser, readTimeMinutes });
         }
@@ -205,8 +231,7 @@ app.get('/blog/:path(*)', async (req, res) => {
         if (entry.isDirectory()) {
           await getRecentPosts(fullPath);
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
-          const gitPath = path.relative(__dirname, fullPath);
-          const blogPath = path.relative(blogDir, fullPath);
+          const blogPath = path.relative(blogDir, fullPath).split(path.sep).join('/');
           const content = await fs.readFile(fullPath, 'utf8');
           const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
 
@@ -236,13 +261,7 @@ app.get('/blog/:path(*)', async (req, res) => {
           const wordCount = content.split(/\s+/).length;
           const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
-          let date = '';
-          try {
-            date = execSync(`git log --follow --format="%ai" -- "${gitPath}" | head -1`, { cwd: __dirname, encoding: 'utf8' }).trim();
-          } catch (e) {
-            const stats = await fs.stat(fullPath);
-            date = stats.mtime.toISOString();
-          }
+          const date = await getGitDateOrMtime(fullPath);
 
           recentPosts.push({ title, date, path: blogPath, teaser, readTimeMinutes });
         }
@@ -255,11 +274,11 @@ app.get('/blog/:path(*)', async (req, res) => {
 
     // Generate sidebar HTML
     const sidebarHtml = sidebarPosts.map(post => `
-      <a href="/blog/${post.path}" class="block p-4 border-b border-slate-100 hover:bg-slate-50 transition-colors ${req.params.path === post.path ? 'bg-blue-50 border-blue-200' : ''}">
-        <h4 class="font-semibold text-slate-900 mb-2">${post.title}</h4>
-        ${post.teaser ? `<p class="text-sm text-slate-600 line-clamp-3 mb-2">${post.teaser}</p>` : ''}
+      <a href="/blog/${blogUrlPath(post.path)}" class="block p-4 border-b border-slate-100 hover:bg-slate-50 transition-colors ${req.params.path === post.path ? 'bg-blue-50 border-blue-200' : ''}">
+        <h4 class="font-semibold text-slate-900 mb-2">${escapeHtml(post.title)}</h4>
+        ${post.teaser ? `<p class="text-sm text-slate-600 line-clamp-3 mb-2">${escapeHtml(post.teaser)}</p>` : ''}
         <div class="flex items-center justify-between text-xs text-slate-500">
-          <span>${new Date(post.date).toLocaleDateString()}</span>
+          <span>${escapeHtml(new Date(post.date).toLocaleDateString())}</span>
           <span>${post.readTimeMinutes} min read</span>
         </div>
       </a>
@@ -271,17 +290,17 @@ app.get('/blog/:path(*)', async (req, res) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${title} | RO IT Systems</title>
-  <meta name="description" content="${ogDescription}" />
+  <title>${escapeHtml(title)} | RO IT Systems</title>
+  <meta name="description" content="${escapeHtml(ogDescription)}" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="${title}" />
-  <meta property="og:description" content="${ogDescription}" />
-  <meta property="og:url" content="${currentUrl}" />
-  ${ogImageUrl ? `<meta property="og:image" content="${ogImageUrl}" />` : ''}
+  <meta property="og:title" content="${escapeHtml(title)}" />
+  <meta property="og:description" content="${escapeHtml(ogDescription)}" />
+  <meta property="og:url" content="${escapeHtml(currentUrl)}" />
+  ${ogImageUrl ? `<meta property="og:image" content="${escapeHtml(ogImageUrl)}" />` : ''}
   <meta name="twitter:card" content="${ogImageUrl ? 'summary_large_image' : 'summary'}" />
-  <meta name="twitter:title" content="${title}" />
-  <meta name="twitter:description" content="${ogDescription}" />
-  ${ogImageUrl ? `<meta name="twitter:image" content="${ogImageUrl}" />` : ''}
+  <meta name="twitter:title" content="${escapeHtml(title)}" />
+  <meta name="twitter:description" content="${escapeHtml(ogDescription)}" />
+  ${ogImageUrl ? `<meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" />` : ''}
   <script src="/config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -416,12 +435,12 @@ app.get('/blog/:path(*)', async (req, res) => {
       <!-- Main content -->
       <div class="lg:col-span-3">
         <article class="prose prose-slate max-w-none">
-          ${ogImageUrl ? `<img src="${ogImageUrl}" alt="${title}" class="w-full rounded-xl mb-8" style="max-height:420px;object-fit:cover;" />` : ''}
+          ${ogImageUrl ? `<img src="${escapeHtml(ogImageUrl)}" alt="${escapeHtml(title)}" class="w-full rounded-xl mb-8" style="max-height:420px;object-fit:cover;" />` : ''}
           ${htmlContent}
         </article>
         <div class="mt-8 pt-8 border-t border-slate-200">
           <div class="flex gap-4">
-            <button onclick="history.back()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+            <button type="button" id="backButton" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
               <i data-lucide="arrow-left" class="h-4 w-4"></i>
               Back
             </button>
@@ -457,6 +476,7 @@ app.get('/blog/:path(*)', async (req, res) => {
   </main>
 
   <script>
+    document.getElementById('backButton')?.addEventListener('click', () => history.back());
     lucide.createIcons();
   </script>
 </body>

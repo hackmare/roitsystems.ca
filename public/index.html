@@ -764,6 +764,22 @@
     });
 
     // Load and render blog posts
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function blogUrlPath(value) {
+      return String(value ?? '')
+        .split(/[\\/]+/)
+        .map(encodeURIComponent)
+        .join('/');
+    }
+
     async function loadBlogPosts() {
       try {
         const response = await fetch('/api/blog');
@@ -783,10 +799,10 @@
         const blogContainer = document.getElementById('blog-posts');
         blogContainer.innerHTML = recentPosts.map(post => `
           <article class="insight-card glass flex min-h-[260px] flex-col rounded-[2rem] border border-white/70 p-7 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-            <div class="text-sm font-semibold text-slate-500">${post.section || 'Blog'}</div>
-            <h4 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">${post.title}</h4>
-            <p class="mt-3 text-sm leading-6 text-slate-600">${new Date(post.date).toLocaleDateString()}</p>
-            <a href="/blog/${post.path}" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Read more <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+            <div class="text-sm font-semibold text-slate-500">${escapeHtml(post.section || 'Blog')}</div>
+            <h4 class="mt-4 text-xl font-semibold tracking-tight text-slate-950">${escapeHtml(post.title)}</h4>
+            <p class="mt-3 text-sm leading-6 text-slate-600">${escapeHtml(new Date(post.date).toLocaleDateString())}</p>
+            <a href="/blog/${blogUrlPath(post.path)}" class="route-link mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-900">Read more <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
           </article>
         `).join('');
         lucide.createIcons();
