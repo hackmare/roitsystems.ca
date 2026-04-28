@@ -417,11 +417,11 @@ This hardening exercise is not a claim of formal certification or audited compli
 
 | Standard / Guideline | One-line relevance |
 |---|---|
-| **NIST Cybersecurity Framework 2.0** | Aligns the work to risk governance, protection, detection, response, and recovery practices. |
-| **OWASP Top 10 / OWASP Web Security Guidance** | Supports controls for input validation, safe error handling, rate limiting, security headers, CORS, and information-leak prevention. |
+| [**NIST Cybersecurity Framework 2.0**](https://www.nist.gov/cyberframework) | Aligns the work to risk governance, protection, detection, response, and recovery practices. |
+| [**OWASP Top 10 for LLM Applications**](https://genai.owasp.org/llm-top-10/) | Supports controls for input validation, safe error handling, rate limiting, security headers, CORS, and information-leak prevention. |
 | **CIS Critical Security Controls v8** | Maps to practical safeguards for secure configuration, access control, logging, vulnerability management, and data protection. |
 | **PIPEDA Safeguards Principle** | Supports Canadian privacy expectations by protecting personal information against unauthorized access, disclosure, loss, or misuse. |
-| **ISO/IEC 27001 Control Themes** | Reflects information-security management practices such as access control, logging, backup, secure operations, and documented controls. |
+| [**ISO/IEC 27001**](https://www.iso.org/standard/27001) | Reflects information-security management practices such as access control, logging, backup, secure operations, and documented controls. |
 | **Secure-by-Design Principles** | Builds security into the architecture by minimizing public exposure and keeping private services private. |
 | **Privacy-by-Design Principles** | Limits unnecessary third-party data sharing and reduces where personal information flows. |
 | **DevSecOps Practices** | Integrates security into build, deployment, dependency review, configuration, testing, and documentation. |

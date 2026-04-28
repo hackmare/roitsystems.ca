@@ -318,6 +318,14 @@ app.get('/blog/:path(*)', async (req, res) => {
       margin-bottom: 1rem;
       line-height: 1.75;
     }
+    .prose a {
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .prose a:hover {
+      color: #1e3a8a;
+    }
     .prose ul, .prose ol {
       margin-bottom: 1rem;
       padding-left: 1.5rem;
