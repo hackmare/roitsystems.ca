@@ -86,6 +86,32 @@ app.get('/api/blog', async (_req, res) => {
           const blogPath = path.relative(blogDir, fullPath);
           const content = await fs.readFile(fullPath, 'utf8');
           const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
+
+          // Extract first paragraph (skip title)
+          const lines = content.split('\n');
+          let firstParagraph = '';
+          let foundTitle = false;
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('# ')) {
+              foundTitle = true;
+              continue;
+            }
+            if (foundTitle && trimmed && !trimmed.startsWith('#') && trimmed.length > 10) {
+              firstParagraph = trimmed.replace(/^#+\s*/, ''); // Remove heading markers
+              break;
+            }
+          }
+
+          // Extract first 2 sentences
+          const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
+          const firstTwoSentences = sentences.slice(0, 2).join('.').trim();
+          const teaser = firstTwoSentences ? firstTwoSentences + (firstTwoSentences.endsWith('.') ? '' : '.') : '';
+
+          // Calculate read time (approximately 200 words per minute)
+          const wordCount = content.split(/\s+/).length;
+          const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
           let date = '';
           try {
             date = execSync(`git log --follow --format="%ai" -- "${gitPath}" | head -1`, { cwd: __dirname, encoding: 'utf8' }).trim();
@@ -95,7 +121,7 @@ app.get('/api/blog', async (_req, res) => {
             date = stats.mtime.toISOString();
           }
           if (!sections[section]) sections[section] = [];
-          sections[section].push({ title, date, path: blogPath });
+          sections[section].push({ title, date, path: blogPath, teaser, readTimeMinutes });
         }
       }
     }
@@ -120,6 +146,12 @@ app.get('/blog/:path(*)', async (req, res) => {
     const md = new MarkdownIt();
     const htmlContent = md.render(markdown);
 
+    // Extract title from markdown
+    const title = markdown.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
+    
+    // Construct current URL for sharing
+    const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+
     // Get recent blog posts for sidebar
     const blogDir = path.join(__dirname, 'blog');
     const recentPosts = [];
@@ -136,7 +168,7 @@ app.get('/blog/:path(*)', async (req, res) => {
           const content = await fs.readFile(fullPath, 'utf8');
           const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
 
-          // Get first sentence (look for first paragraph after title, skipping headings)
+          // Get first 2 sentences (look for first paragraph after title, skipping headings)
           const lines = content.split('\n');
           let firstParagraph = '';
           let foundTitle = false;
@@ -153,7 +185,14 @@ app.get('/blog/:path(*)', async (req, res) => {
             }
           }
           
-          const firstSentence = firstParagraph.split('.')[0] + (firstParagraph.includes('.') ? '.' : '');
+          // Extract first 2 sentences
+          const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
+          const firstTwoSentences = sentences.slice(0, 2).join('.').trim();
+          const teaser = firstTwoSentences ? firstTwoSentences + (firstTwoSentences.endsWith('.') ? '' : '.') : '';
+
+          // Calculate read time (approximately 200 words per minute)
+          const wordCount = content.split(/\s+/).length;
+          const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
           let date = '';
           try {
@@ -163,7 +202,7 @@ app.get('/blog/:path(*)', async (req, res) => {
             date = stats.mtime.toISOString();
           }
 
-          recentPosts.push({ title, date, path: blogPath, firstSentence });
+          recentPosts.push({ title, date, path: blogPath, teaser, readTimeMinutes });
         }
       }
     }
@@ -176,8 +215,11 @@ app.get('/blog/:path(*)', async (req, res) => {
     const sidebarHtml = sidebarPosts.map(post => `
       <a href="/blog/${post.path}" class="block p-4 border-b border-slate-100 hover:bg-slate-50 transition-colors ${req.params.path === post.path ? 'bg-blue-50 border-blue-200' : ''}">
         <h4 class="font-semibold text-slate-900 mb-2">${post.title}</h4>
-        ${post.firstSentence ? `<p class="text-sm text-slate-600 line-clamp-2">${post.firstSentence}</p>` : ''}
-        <p class="text-xs text-slate-500 mt-2">${new Date(post.date).toLocaleDateString()}</p>
+        ${post.teaser ? `<p class="text-sm text-slate-600 line-clamp-3 mb-2">${post.teaser}</p>` : ''}
+        <div class="flex items-center justify-between text-xs text-slate-500">
+          <span>${new Date(post.date).toLocaleDateString()}</span>
+          <span>${post.readTimeMinutes} min read</span>
+        </div>
       </a>
     `).join('');
 
@@ -269,6 +311,12 @@ app.get('/blog/:path(*)', async (req, res) => {
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body class="min-h-screen text-slate-900 antialiased">
@@ -320,6 +368,27 @@ app.get('/blog/:path(*)', async (req, res) => {
               <i data-lucide="home" class="h-4 w-4"></i>
               Home
             </a>
+          </div>
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <h4 class="text-sm font-semibold text-slate-900 mb-3">Share this post</h4>
+            <div class="flex gap-3">
+              <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                <i data-lucide="facebook" class="h-4 w-4"></i>
+                Facebook
+              </a>
+              <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-black rounded-lg hover:bg-gray-800 transition-colors">
+                <i data-lucide="twitter" class="h-4 w-4"></i>
+                X
+              </a>
+              <a href="https://www.threads.net/intent/post?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">
+                <i data-lucide="message-circle" class="h-4 w-4"></i>
+                Threads
+              </a>
+              <a href="mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(currentUrl)}" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
+                <i data-lucide="mail" class="h-4 w-4"></i>
+                Email
+              </a>
+            </div>
           </div>
         </div>
       </div>
