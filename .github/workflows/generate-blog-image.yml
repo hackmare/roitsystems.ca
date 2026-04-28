@@ -1,6 +1,7 @@
 name: Generate OG Image for Blog Posts
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -26,13 +27,21 @@ jobs:
       - name: Install generation dependencies
         run: npm install openai sharp
 
-      - name: Find new or modified markdown files
+      - name: Find markdown files to process
         id: changed
         run: |
-          FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD 2>/dev/null \
-            | grep -E '^blog/.*\.md$' \
-            || git show --name-only --pretty=format: HEAD | grep -E '^blog/.*\.md$')
-          FILES=$(echo "$FILES" | tr '\n' ' ' | xargs)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual run: process all blog posts that have no PNG yet
+            FILES=$(find blog -name '*.md' | while read f; do
+              png="${f%.md}.png"
+              [ ! -f "$png" ] && echo "$f"
+            done | tr '\n' ' ' | xargs)
+          else
+            FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD 2>/dev/null \
+              | grep -E '^blog/.*\.md$' \
+              || git show --name-only --pretty=format: HEAD | grep -E '^blog/.*\.md$')
+            FILES=$(echo "$FILES" | tr '\n' ' ' | xargs)
+          fi
           echo "files=$FILES" >> $GITHUB_OUTPUT
           echo "Detected: $FILES"
 
