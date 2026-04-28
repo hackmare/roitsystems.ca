@@ -17,5 +17,9 @@
     "express-rate-limit": "^8.4.1",
     "helmet": "^8.1.0",
     "markdown-it": "^14.1.1"
+  },
+  "devDependencies": {
+    "openai": "^6.34.0",
+    "sharp": "^0.34.5"
   }
 }

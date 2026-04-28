@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install generation dependencies
-        run: npm install openai sharp
+      - name: Install dependencies
+        run: npm ci
 
       - name: Find markdown files to process
         id: changed
