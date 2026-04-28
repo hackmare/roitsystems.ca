@@ -162,7 +162,7 @@ app.get('/blog/:path(*)', async (req, res) => {
     }
 
     const markdown = await fs.readFile(filePath, 'utf8');
-    const md = new MarkdownIt();
+    const md = new MarkdownIt({ linkify: true });
     const htmlContent = md.render(markdown);
 
     // Extract title from markdown

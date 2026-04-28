@@ -4,11 +4,11 @@ ISO/IEC 42001 is the international management-system standard for responsible AI
 
 Sources: ISO describes ISO/IEC 42001 as a standard for responsible AI development, provision, and use; NIST frames AI risk around Govern, Map, Measure, and Manage; OWASP identifies key LLM security risks; ISO/IEC 27001 defines the information-security management foundation. 
  
-References:  
-- ISO/IEC 42001: https://www.iso.org/standard/42001  
-- ISO/IEC 27001: https://www.iso.org/standard/27001  
-- NIST AI RMF: https://www.nist.gov/itl/ai-risk-management-framework  
-- OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
+References:
+- [ISO/IEC 42001](https://www.iso.org/standard/42001)
+- [ISO/IEC 27001](https://www.iso.org/standard/27001)
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/)
 
 ---
 
