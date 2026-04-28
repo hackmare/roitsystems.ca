@@ -5,10 +5,10 @@ import { basename, extname, join } from 'path';
 
 const client = new OpenAI();
 
-// Visual direction from roitsystems.ca
 const PALETTE =
-  'Deep navy, slate, soft white, restrained blue accents, and subtle warm light. ' +
-  'Avoid neon, purple gradients, cyberpunk palettes, and overly bright SaaS colours.';
+  'Use a 60-30-10 palette based on roitsystems.ca: deep navy and slate as the ' +
+  'dominant foundation, soft white and light slate as the secondary tones, restrained ' +
+  'blue accents, plus small pops of sand or warm light.';
 
 function stripMarkdown(text) {
   return text
@@ -18,7 +18,7 @@ function stripMarkdown(text) {
     .trim();
 }
 
-function extractTitleAndFirstSentence(content) {
+function extractTitleAndContext(content) {
   const lines = content.split('\n');
 
   const titleLine = lines.find(l => /^#+\s/.test(l)) ?? '';
@@ -27,12 +27,20 @@ function extractTitleAndFirstSentence(content) {
   const bodyLines = lines
     .slice(lines.indexOf(titleLine) + 1)
     .map(l => l.trim())
-    .filter(l => l.length > 0 && !l.startsWith('#') && !l.startsWith('>'));
+    .filter(l =>
+      l.length > 0 &&
+      !l.startsWith('#') &&
+      !l.startsWith('>') &&
+      !l.startsWith('|') &&
+      !l.startsWith('```') &&
+      !/^\*\*[^*]+\*\*$/.test(l)
+    );
 
-  const bodyText = bodyLines.join(' ');
-  const firstSentence = bodyText.match(/[^.!?]+[.!?]/)?.[0]?.trim() ?? bodyText.slice(0, 200);
+  const bodyText = stripMarkdown(bodyLines.join(' '));
+  const sentences = bodyText.match(/[^.!?]+[.!?]/g)?.map(s => s.trim()) ?? [];
+  const firstTwoSentences = sentences.slice(0, 2).join(' ') || bodyText.slice(0, 300);
 
-  return { title, firstSentence };
+  return { title, firstTwoSentences };
 }
 
 async function alreadyExists(pngPath) {
@@ -67,28 +75,31 @@ async function generateImage(mdFile, { force = false } = {}) {
   }
 
   const content = await readFile(mdFile, 'utf8');
-  const { title, firstSentence } = extractTitleAndFirstSentence(content);
+  const { title, firstTwoSentences } = extractTitleAndContext(content);
 
   const prompt =
-    `Create a premium editorial blog header image for an enterprise AI governance ` +
-    `and systems architecture article. Audience: CIOs, CTOs, CISOs, board members, ` +
-    `risk leaders, and enterprise architects in regulated industries. Visual style: ` +
-    `sophisticated, cinematic, calm, credible, high-trust enterprise technology. ` +
-    `Use photorealistic or refined editorial realism with subtle abstract overlays. ` +
-    `Scene: a quiet executive technology environment where senior professionals are ` +
-    `reviewing complex system flows, governance controls, secure data movement, and ` +
-    `AI decision pathways. The image should suggest responsible AI adoption, operational ` +
-    `control, audit readiness, and leadership confidence. Composition: master image that ` +
-    `can be cropped into a wide article hero, compact blog card thumbnail, and 1200x630 ` +
-    `social sharing image. Use a wide 16:9 feel ` +
-    `with strong visual focus in the centre/right and some clean negative space on the ` +
-    `left or top-left so it works as a blog card, social sharing image, and article ` +
-    `header. Mood: trust, safety, clarity, strategic confidence, serious systems, ` +
-    `regulated environments. Calm and reassuring, not flashy. Colour palette: ${PALETTE} ` +
-    `Important constraints: no words, no letters, no logos, no fake UI text, no brand ` +
-    `names, no distorted hands, no obvious AI cliches, no robots, no glowing brains, ` +
-    `no stock handshakes, no exaggerated holograms, and no cartoon illustration. ` +
-    `Article title: ${title}. Article context: ${firstSentence}`;
+    `Create a sophisticated hero image for an enterprise technology consulting blog post. ` +
+    `Audience: CIOs, CTOs, CISOs, board members, risk leaders, and enterprise architects ` +
+    `in regulated industries. Theme: trustworthy AI adoption, governance, platform ` +
+    `modernisation, and complex systems integration in high-stakes environments. Visual ` +
+    `concept: a calm executive technology environment where complex systems are becoming ` +
+    `understandable and governable. Show abstract layers of enterprise architecture, ` +
+    `secure data flows, AI decision pathways, and governance controls converging into a ` +
+    `clear, stable operating model. Style: premium enterprise consulting, polished, calm, ` +
+    `credible, modern, not futuristic hype. Elegant editorial realism with subtle abstract ` +
+    `technology overlays. Should feel like confidence, clarity, safety, and senior judgment. ` +
+    `Composition: master image that can be cropped into a wide article hero, compact blog ` +
+    `card thumbnail, and 1200x630 social sharing image. Use a wide landscape 16:9 aspect ` +
+    `ratio, suitable for dark text-overlay or light text-overlay on a website. Leave clean ` +
+    `negative space on the left side for headline text. Main visual energy should be on ` +
+    `the right and center. Mood: confident, composed, high-trust, strategic, human-led, ` +
+    `quietly powerful. Colour palette: ${PALETTE} Avoid purple gradients, neon cyberpunk, ` +
+    `dark hacker imagery, stock-photo handshakes, robots, glowing brains, or generic AI ` +
+    `icons. Subject matter: no visible brand names, no readable text, no logos, no cartoon ` +
+    `style, and no people staring at floating holograms. If people are included, show them ` +
+    `subtly as senior professionals reviewing systems calmly, not posing. Output: ` +
+    `photorealistic with refined abstract overlays, 16:9 aspect ratio, website hero quality. ` +
+    `Article header: ${title}. First two article sentences: ${firstTwoSentences}`;
 
   console.log(`Generating image for ${mdFile}…`);
   console.log(`Prompt: ${prompt}\n`);

@@ -146,6 +146,7 @@ app.use(
           "'unsafe-inline'",
           'https://cdn.tailwindcss.com',
           'https://unpkg.com',
+          'https://cdn.jsdelivr.net',
         ],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", 'data:'],
@@ -253,7 +254,17 @@ app.get('/blog/:path(*)', async (req, res) => {
 
     const markdown = await fs.readFile(filePath, 'utf8');
     const md = new MarkdownIt({ linkify: true });
+    const defaultFence = md.renderer.rules.fence || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
+    md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+      const token = tokens[idx];
+      const lang = token.info.trim().split(/\s+/)[0].toLowerCase();
+      if (lang === 'mermaid') {
+        return `<div class="mermaid-card"><div class="mermaid">${escapeHtml(token.content)}</div></div>`;
+      }
+      return defaultFence(tokens, idx, options, env, self);
+    };
     const htmlContent = md.render(markdown);
+    const hasMermaid = htmlContent.includes('class="mermaid"');
 
     // Extract title from markdown
     const title = extractMarkdownTitle(markdown);
@@ -392,6 +403,33 @@ app.get('/blog/:path(*)', async (req, res) => {
       overflow-x: auto;
       margin-bottom: 1rem;
     }
+    .prose .mermaid-card {
+      margin: 2rem 0;
+      overflow-x: auto;
+      border: 1px solid #dbeafe;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.86);
+      padding: 1rem;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    }
+    .prose .mermaid {
+      display: flex;
+      min-width: 620px;
+      justify-content: center;
+    }
+    .prose .mermaid svg {
+      height: auto;
+      max-width: 100%;
+    }
+    @media (max-width: 640px) {
+      .prose .mermaid-card {
+        border-radius: 0.75rem;
+        padding: 0.75rem;
+      }
+      .prose .mermaid {
+        min-width: 520px;
+      }
+    }
     .prose blockquote {
       border-left: 4px solid #e2e8f0;
       padding-left: 1rem;
@@ -506,6 +544,14 @@ app.get('/blog/:path(*)', async (req, res) => {
     document.getElementById('backButton')?.addEventListener('click', () => history.back());
     lucide.createIcons();
   </script>
+  ${hasMermaid ? `<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: "strict",
+      theme: "base"
+    });
+  </script>` : ''}
 </body>
 </html>`;
 
