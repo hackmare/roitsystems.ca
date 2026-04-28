@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Readiness Scorecard | RO IT Systems</title>
+  <meta name="description" content="A practical AI readiness scorecard for leaders assessing governance, data, architecture, delivery, and operational control before scaling AI." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(147, 197, 253, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.10), transparent 24%),
+        #f8fafc;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900 antialiased">
+  <header class="border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+      <a href="/" class="flex items-center gap-3">
+        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-900 to-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">RO</div>
+        <div>
+          <div class="text-lg font-semibold tracking-tight">RO IT Systems</div>
+          <div class="text-sm text-slate-500">Responsible AI &bull; Data Governance &bull; Platform Consulting</div>
+        </div>
+      </a>
+      <a href="/#contact" class="hidden rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5 sm:inline-flex">Discuss your score</a>
+    </div>
+  </header>
+
+  <main class="px-4 py-10 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-6xl">
+      <div class="mb-8">
+        <div class="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-100/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-blue-900">AI readiness scorecard</div>
+        <h1 class="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 md:text-6xl">Is your organisation ready to adopt AI responsibly?</h1>
+        <p class="mt-5 max-w-3xl text-base leading-7 text-slate-600 md:text-lg">Use this quick scorecard to identify whether your next step is a small clarity sprint, a governance design engagement, or deeper platform and integration work.</p>
+      </div>
+
+      <div class="grid gap-5 lg:grid-cols-[0.78fr_0.22fr]">
+        <div class="rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+          <div class="grid gap-4 md:grid-cols-2">
+            <article class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-950">1. AI inventory</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-600">You know where AI is already used, who owns it, what data it touches, and which vendor or internal system provides it.</p>
+              <div class="mt-4 text-sm font-semibold text-blue-900">Score 0-2</div>
+            </article>
+            <article class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-950">2. Use-case prioritisation</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-600">AI opportunities are ranked by value, risk, data readiness, operational dependency, and the decision they improve.</p>
+              <div class="mt-4 text-sm font-semibold text-blue-900">Score 0-2</div>
+            </article>
+            <article class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-950">3. Data and privacy controls</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Teams know what cannot be sent to AI tools, how sensitive data is handled, and when privacy or legal review is required.</p>
+              <div class="mt-4 text-sm font-semibold text-blue-900">Score 0-2</div>
+            </article>
+            <article class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-950">4. Governance and decision rights</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-600">There is a clear path for approving AI uses, assigning accountability, documenting evidence, and escalating higher-risk decisions.</p>
+              <div class="mt-4 text-sm font-semibold text-blue-900">Score 0-2</div>
+            </article>
+            <article class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-950">5. Architecture and integration</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-600">AI workflows can connect to the right APIs, data platforms, identity controls, logs, and operational systems without fragile workarounds.</p>
+              <div class="mt-4 text-sm font-semibold text-blue-900">Score 0-2</div>
+            </article>
+            <article class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5">
+              <h2 class="text-lg font-semibold tracking-tight text-slate-950">6. Human oversight</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-600">People know when AI output must be reviewed, who can act on it, and what happens when the system is uncertain or wrong.</p>
+              <div class="mt-4 text-sm font-semibold text-blue-900">Score 0-2</div>
+            </article>
+          </div>
+        </div>
+
+        <aside class="rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+          <h2 class="text-xl font-semibold tracking-tight text-slate-950">How to score</h2>
+          <div class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+            <p><strong class="text-slate-950">0:</strong> Not defined or inconsistent.</p>
+            <p><strong class="text-slate-950">1:</strong> Partly defined, but not operational.</p>
+            <p><strong class="text-slate-950">2:</strong> Defined, owned, and repeatable.</p>
+          </div>
+          <div class="mt-6 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+            <h3 class="text-sm font-semibold uppercase tracking-[0.12em] text-blue-900">What your total means</h3>
+            <div class="mt-3 space-y-3 text-sm leading-6 text-slate-700">
+              <p><strong>0-4:</strong> Start with AI Readiness.</p>
+              <p><strong>5-8:</strong> Focus on governance and controls.</p>
+              <p><strong>9-12:</strong> Move toward delivery and integration.</p>
+            </div>
+          </div>
+          <a href="/#contact" class="mt-6 inline-flex w-full items-center justify-center rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-blue-700">Discuss your score</a>
+        </aside>
+      </div>
+
+      <div class="mt-8 rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+        <h2 class="text-2xl font-semibold tracking-tight text-slate-950">Use this in a leadership discussion</h2>
+        <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">Have each stakeholder score independently, then compare the gaps. Misalignment is useful evidence: it shows where governance, architecture, privacy, or delivery assumptions need to be made explicit before AI reaches production.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
