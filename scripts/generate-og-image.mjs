@@ -22,6 +22,23 @@ function stripMarkdown(text) {
     .trim();
 }
 
+function extractTitleAndFirstSentence(content) {
+  const lines = content.split('\n');
+
+  const titleLine = lines.find(l => /^#+\s/.test(l)) ?? '';
+  const title = stripMarkdown(titleLine);
+
+  const bodyLines = lines
+    .slice(lines.indexOf(titleLine) + 1)
+    .map(l => l.trim())
+    .filter(l => l.length > 0 && !l.startsWith('#') && !l.startsWith('>'));
+
+  const bodyText = bodyLines.join(' ');
+  const firstSentence = bodyText.match(/[^.!?]+[.!?]/)?.[0]?.trim() ?? bodyText.slice(0, 200);
+
+  return { title, firstSentence };
+}
+
 async function alreadyExists(pngPath) {
   try {
     await access(pngPath);
@@ -40,19 +57,13 @@ async function generateImage(mdFile) {
   }
 
   const content = await readFile(mdFile, 'utf8');
-  const firstFiveLines = content
-    .split('\n')
-    .map(l => l.trim())
-    .filter(l => l.length > 0)
-    .slice(0, 5)
-    .map(stripMarkdown)
-    .join(' ');
+  const { title, firstSentence } = extractTitleAndFirstSentence(content);
 
   const prompt =
     `Professional blog post header image for an IT systems and cybersecurity company. ` +
     `Abstract, geometric, clean and modern. No text, no letters, no logos. ` +
     `Color palette (strictly): ${PALETTE} ` +
-    `Article topic: ${firstFiveLines}`;
+    `Article title: ${title}. ${firstSentence}`;
 
   console.log(`Generating image for ${mdFile}…`);
   console.log(`Prompt: ${prompt}\n`);
