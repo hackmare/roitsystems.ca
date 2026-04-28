@@ -430,6 +430,12 @@ This hardening exercise is not a claim of formal certification or audited compli
 
 ---
 
+## Security Checklists
+
+For a comprehensive view of all security hardening checklists and implementation status, see: [HARDENING_CHECKLIST.md](https://github.com/hackmare/roitsystems-infra/blob/main/HARDENING_CHECKLIST.md)
+
+---
+
 ## Appendix A: Security Hardening Notes — roitsystems.ca
 
 # Security Hardening Notes — roitsystems.ca
