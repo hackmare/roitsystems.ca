@@ -120,6 +120,53 @@ app.get('/blog/:path(*)', async (req, res) => {
     const md = new MarkdownIt();
     const htmlContent = md.render(markdown);
 
+    // Get recent blog posts for sidebar
+    const blogDir = path.join(__dirname, 'blog');
+    const recentPosts = [];
+
+    async function getRecentPosts(dir) {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          await getRecentPosts(fullPath);
+        } else if (entry.isFile() && entry.name.endsWith('.md')) {
+          const gitPath = path.relative(__dirname, fullPath);
+          const blogPath = path.relative(blogDir, fullPath);
+          const content = await fs.readFile(fullPath, 'utf8');
+          const title = content.split('\n').find(line => line.startsWith('# '))?.replace('# ', '') || 'Untitled';
+
+          // Get first sentence (look for first period after title)
+          const bodyStart = content.indexOf('\n\n');
+          const firstParagraph = bodyStart > -1 ? content.substring(bodyStart + 2).trim() : '';
+          const firstSentence = firstParagraph.split('.')[0] + (firstParagraph.includes('.') ? '.' : '');
+
+          let date = '';
+          try {
+            date = execSync(`git log --follow --format="%ai" -- "${gitPath}" | head -1`, { cwd: __dirname, encoding: 'utf8' }).trim();
+          } catch (e) {
+            const stats = await fs.stat(fullPath);
+            date = stats.mtime.toISOString();
+          }
+
+          recentPosts.push({ title, date, path: blogPath, firstSentence });
+        }
+      }
+    }
+
+    await getRecentPosts(blogDir);
+    recentPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sidebarPosts = recentPosts.slice(0, 10);
+
+    // Generate sidebar HTML
+    const sidebarHtml = sidebarPosts.map(post => `
+      <a href="/blog/${post.path}" class="block p-4 border-b border-slate-100 hover:bg-slate-50 transition-colors ${req.params.path === post.path ? 'bg-blue-50 border-blue-200' : ''}">
+        <h4 class="font-semibold text-slate-900 mb-2">${post.title}</h4>
+        ${post.firstSentence ? `<p class="text-sm text-slate-600 line-clamp-2">${post.firstSentence}</p>` : ''}
+        <p class="text-xs text-slate-500 mt-2">${new Date(post.date).toLocaleDateString()}</p>
+      </a>
+    `).join('');
+
     // Simple HTML template
     const html = `<!DOCTYPE html>
 <html lang="en">
@@ -202,12 +249,18 @@ app.get('/blog/:path(*)', async (req, res) => {
       background-color: #f8fafc;
       font-weight: 600;
     }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body class="min-h-screen text-slate-900 antialiased">
   <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-      <a href="/" data-route="home" class="flex items-center gap-3 route-link">
+      <a href="/" class="flex items-center gap-3">
         <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-900 to-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">RO</div>
         <div>
           <div class="text-lg font-semibold tracking-tight">RO IT Systems</div>
@@ -215,32 +268,45 @@ app.get('/blog/:path(*)', async (req, res) => {
         </div>
       </a>
       <nav class="hidden items-center gap-1 md:flex">
-        <a href="/" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Home</a>
-        <a href="/#trust" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Trust</a>
-        <a href="/#services" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Services</a>
-        <a href="/#outcomes" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Outcomes</a>
-        <a href="/#about" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">About</a>
-        <a href="/#insights" class="page-link route-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Insights</a>
-        <a href="/#contact" class="page-link route-link rounded-full px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Contact</a>
+        <a href="/" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Home</a>
+        <a href="/#trust" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Trust</a>
+        <a href="/#services" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Services</a>
+        <a href="/#outcomes" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Outcomes</a>
+        <a href="/#about" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">About</a>
+        <a href="/#insights" class="page-link rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Insights</a>
+        <a href="/#contact" class="page-link rounded-full px-4 py-2 text-sm font-semibold text-blue-900 shadow-sm transition hover:-translate-y-0.5">Contact</a>
       </nav>
     </div>
   </header>
 
   <main class="px-4 py-8 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-4xl">
-      <article class="prose prose-slate max-w-none">
-        ${htmlContent}
-      </article>
-      <div class="mt-8 pt-8 border-t border-slate-200">
-        <div class="flex gap-4">
-          <button onclick="history.back()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
-            <i data-lucide="arrow-left" class="h-4 w-4"></i>
-            Back
-          </button>
-          <a href="/" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-900 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors">
-            <i data-lucide="home" class="h-4 w-4"></i>
-            Home
-          </a>
+    <div class="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="sticky top-24">
+          <h3 class="text-lg font-semibold text-slate-900 mb-4">Recent Posts</h3>
+          <div class="space-y-1">
+            ${sidebarHtml}
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="lg:col-span-3">
+        <article class="prose prose-slate max-w-none">
+          ${htmlContent}
+        </article>
+        <div class="mt-8 pt-8 border-t border-slate-200">
+          <div class="flex gap-4">
+            <button onclick="history.back()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+              <i data-lucide="arrow-left" class="h-4 w-4"></i>
+              Back
+            </button>
+            <a href="/" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-900 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors">
+              <i data-lucide="home" class="h-4 w-4"></i>
+              Home
+            </a>
+          </div>
         </div>
       </div>
     </div>
