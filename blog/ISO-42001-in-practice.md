@@ -238,21 +238,15 @@ ISO 42001 does not replace OWASP. It asks whether the organization has a system 
 
 A practical AI governance stack looks like this:
 
-## Governance Layer
-ISO 42001  
-Responsible AI management, accountability, policy, lifecycle control, auditability.
+```mermaid
+flowchart TB
+    Governance["Governance Layer<br/>ISO 42001<br/>Responsible AI management, accountability, policy, lifecycle control, auditability"]
+    Risk["Risk Layer<br/>NIST AI RMF<br/>Risk framing, impact analysis, measurement, prioritization, mitigation"]
+    Security["Security Layer<br/>ISO 27001<br/>Information security, access control, vendor risk, monitoring, incident response"]
+    Engineering["Engineering Layer<br/>OWASP Top 10 for LLMs<br/>Prompt injection, data leakage, tool misuse, unsafe outputs, excessive agency"]
 
-## Risk Layer
-NIST AI RMF  
-Risk framing, impact analysis, measurement, prioritization, mitigation.
-
-## Security Layer
-ISO 27001  
-Information security, access control, vendor risk, monitoring, incident response.
-
-## Engineering Layer
-OWASP Top 10 for LLMs  
-Prompt injection, data leakage, tool misuse, unsafe outputs, excessive agency.
+    Governance --> Risk --> Security --> Engineering
+```
 
 ---
 
