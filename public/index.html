@@ -765,7 +765,28 @@
         });
 
         if (res.ok) {
-          form.reset();
+          // Build a summary of what was submitted
+          const submissionSummary = document.createElement('div');
+          submissionSummary.className = 'rounded-lg bg-emerald-50 border border-emerald-200 p-6 mt-6';
+          submissionSummary.innerHTML = `
+            <h3 class="text-lg font-semibold text-emerald-900 mb-4">✓ Inquiry Submitted</h3>
+            <div class="space-y-3 text-sm text-emerald-800">
+              ${payload.name ? `<div><strong>Name:</strong> ${escapeLine(payload.name)}</div>` : ''}
+              ${payload.email ? `<div><strong>Email:</strong> ${escapeLine(payload.email)}</div>` : ''}
+              ${payload.company ? `<div><strong>Organisation:</strong> ${escapeLine(payload.company)}</div>` : ''}
+              ${payload.subject ? `<div><strong>Service Area:</strong> ${escapeLine(payload.subject)}</div>` : ''}
+              ${payload.company_size ? `<div><strong>Company Size:</strong> ${escapeLine(payload.company_size)}</div>` : ''}
+              ${payload.timeline ? `<div><strong>Timeline:</strong> ${escapeLine(payload.timeline)}</div>` : ''}
+            </div>
+            <div class="mt-4 pt-4 border-t border-emerald-200 text-xs text-emerald-700">
+              We've received your inquiry and will review it shortly. You should expect a response within one business day.
+            </div>
+          `;
+
+          // Hide form and show summary
+          form.style.display = 'none';
+          form.parentNode.insertBefore(submissionSummary, form.nextSibling);
+
           showStatus('success', 'Thank you — your inquiry has been received. We will be in touch within one business day.');
         } else if (res.status === 429) {
           showStatus('warn', 'Too many submissions. Please wait a few minutes and try again.');
