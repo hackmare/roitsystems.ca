@@ -560,15 +560,18 @@
             </div>
             <div class="grid gap-5 md:grid-cols-2">
               <div>
-                <label for="budget" class="mb-2 block text-sm font-semibold text-slate-800">Budget range</label>
-                <select id="budget" name="budget" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400">
-                  <option value="">Select a range</option>
-                  <option>Under $5,000</option>
-                  <option>$5,000&ndash;$15,000</option>
-                  <option>$15,000&ndash;$35,000</option>
-                  <option>$35,000+</option>
-                  <option>Sliding-scale / nonprofit inquiry</option>
-                  <option>Not sure yet</option>
+                <label for="company_size" class="mb-2 block text-sm font-semibold text-slate-800">Company size</label>
+                <select id="company_size" name="company_size" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition focus:border-blue-400">
+                  <option value="">Select company size</option>
+                  <option>Under 10</option>
+                  <option>10-50</option>
+                  <option>50-100</option>
+                  <option>100-500</option>
+                  <option>500-1000</option>
+                  <option>1000-2000</option>
+                  <option>2000-15000</option>
+                  <option>15000-100000</option>
+                  <option>100000+</option>
                 </select>
               </div>
               <div>
@@ -687,7 +690,7 @@
       const email = escapeLine(formData.get('email'));
       const company = escapeLine(formData.get('company'));
       const service = escapeLine(formData.get('service'));
-      const budget = escapeLine(formData.get('budget'));
+      const companySize = escapeLine(formData.get('company_size'));
       const timeline = escapeLine(formData.get('timeline'));
       const message = String(formData.get('message') || '').trim();
       return [
@@ -697,7 +700,7 @@
         `Email: ${email || 'Not provided'}`,
         `Organisation: ${company || 'Not provided'}`,
         `Service area: ${service || 'Not selected'}`,
-        `Budget range: ${budget || 'Not provided'}`,
+        `Company size: ${companySize || 'Not provided'}`,
         `Timeline: ${timeline || 'Not provided'}`,
         '',
         'Situation:',
@@ -748,7 +751,7 @@
           company: formData.get('company') || undefined,
           subject: escapeLine(formData.get('service')) || 'Consulting inquiry',
           message: formData.get('message'),
-          budget: formData.get('budget') || undefined,
+          company_size: formData.get('company_size') || undefined,
           timeline: formData.get('timeline') || undefined,
           source_page: location.href,
           timestamp: new Date().toISOString(),
