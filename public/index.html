@@ -769,8 +769,14 @@
         } else {
           showStatus('error', 'Something went wrong on our end. Please try again shortly.');
         }
-      } catch {
-        showStatus('error', 'Unable to reach the server. Please check your connection and try again.');
+      } catch (error) {
+        // API unreachable — fall back to email
+        console.error('API contact failed:', error);
+        const subjectBase = escapeLine(formData.get('service')) || 'Consulting inquiry';
+        const subject = encodeURIComponent(`RO IT Systems | ${subjectBase}`);
+        const body = encodeURIComponent(buildInquirySummary());
+        window.location.href = `mailto:info@roitsystems.ca?subject=${subject}&body=${body}`;
+        showStatus('success', 'Unable to reach the server — your email client should open with a prepared inquiry.');
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = 'Send inquiry';
