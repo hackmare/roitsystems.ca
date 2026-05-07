@@ -777,6 +777,7 @@
               ${payload.subject ? `<div><strong>Service Area:</strong> ${escapeLine(payload.subject)}</div>` : ''}
               ${payload.company_size ? `<div><strong>Company Size:</strong> ${escapeLine(payload.company_size)}</div>` : ''}
               ${payload.timeline ? `<div><strong>Timeline:</strong> ${escapeLine(payload.timeline)}</div>` : ''}
+              ${payload.message ? `<div style="margin-top: 12px;"><strong>Your Inquiry:</strong><div style="margin-top: 6px; padding: 8px; background: white; border-radius: 4px; border-left: 2px solid #059669; white-space: pre-wrap; word-wrap: break-word;">${payload.message}</div></div>` : ''}
             </div>
             <div class="mt-4 pt-4 border-t border-emerald-200 text-xs text-emerald-700">
               We've received your inquiry and will review it shortly. You should expect a response within one business day.
