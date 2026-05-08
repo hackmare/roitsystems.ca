@@ -1,0 +1,93 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Radial gradients for glass-morphism effect -->
+    <radialGradient id="gloss1" cx="30%" cy="30%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Main background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+
+  <!-- Decorative top-left circle (subtle) -->
+  <circle cx="-100" cy="-50" r="300" fill="#2563eb" opacity="0.1"/>
+
+  <!-- Decorative bottom-right circle (subtle) -->
+  <circle cx="1300" cy="700" r="250" fill="#3b82f6" opacity="0.08"/>
+
+  <!-- Glass-morphism card background -->
+  <rect x="80" y="100" width="1040" height="430" rx="20"
+        fill="#ffffff" opacity="0.08"
+        style="backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);"/>
+
+  <!-- Subtle border -->
+  <rect x="80" y="100" width="1040" height="430" rx="20"
+        fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.3"/>
+
+  <!-- Gloss effect overlay -->
+  <ellipse cx="600" cy="150" rx="500" ry="100" fill="url(#gloss1)"/>
+
+  <!-- Logo: Gradient square with subtle design -->
+  <g>
+    <!-- Logo background square -->
+    <rect x="120" y="140" width="80" height="80" rx="12" fill="url(#logoGradient)"/>
+
+    <!-- Logo icon: Abstract gear/governance symbol -->
+    <circle cx="160" cy="180" r="20" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.9"/>
+    <circle cx="160" cy="180" r="12" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.7"/>
+
+    <!-- Small accent dots for governance/interconnection -->
+    <circle cx="145" cy="165" r="3" fill="#60a5fa" opacity="0.8"/>
+    <circle cx="175" cy="165" r="3" fill="#60a5fa" opacity="0.8"/>
+    <circle cx="145" cy="195" r="3" fill="#60a5fa" opacity="0.8"/>
+    <circle cx="175" cy="195" r="3" fill="#60a5fa" opacity="0.8"/>
+  </g>
+
+  <!-- Company name -->
+  <text x="240" y="185" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="700"
+        fill="#ffffff" letter-spacing="-1">
+    RO IT Systems
+  </text>
+
+  <!-- Divider line -->
+  <line x1="240" y1="210" x2="1080" y2="210" stroke="#60a5fa" stroke-width="2" opacity="0.4"/>
+
+  <!-- Tagline: Main message -->
+  <text x="240" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="600"
+        fill="#e0e7ff">
+    Serious Systems.
+  </text>
+  <text x="240" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="600"
+        fill="#e0e7ff">
+    Clear Decisions. Responsible AI.
+  </text>
+
+  <!-- Description: Supporting text -->
+  <text x="240" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="400"
+        fill="#cbd5e1" opacity="0.9">
+    Enabling responsible AI, strategy to scale
+  </text>
+
+  <!-- Website URL (bottom right corner) -->
+  <text x="1080" y="595" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500"
+        fill="#94a3b8" text-anchor="end">
+    roitsystems.ca
+  </text>
+
+  <!-- Accent bars (bottom) -->
+  <rect x="120" y="570" width="200" height="3" fill="#2563eb" opacity="0.6"/>
+  <rect x="340" y="570" width="150" height="3" fill="#3b82f6" opacity="0.5"/>
+</svg>
