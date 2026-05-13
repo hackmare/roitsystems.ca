@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://morganeoger.ca/wp-json/wp/v2/posts?per_page=3&_fields=id,slug,date,modified,status,link,title,excerpt,author,categories,tags,featured_media,yoast_head_json\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s \"https://morganeoger.ca/wp-json/wp/v2/pages?per_page=20&_fields=id,slug,date,modified,status,link,title,parent,menu_order\")",
+      "Bash(curl -sv \"https://morganeoger.ca/wp-json/wp/v2/posts?per_page=3\")",
+      "Bash(curl -s \"https://morganeoger.ca/\")",
+      "Bash(curl -s \"https://public-api.wordpress.com/rest/v1.1/sites/morganeogerca.wordpress.com/posts?number=5&fields=ID,slug,date,modified,status,URL,title,excerpt,author,categories,tags,featured_image,metadata\")",
+      "Bash(curl -s \"https://public-api.wordpress.com/rest/v1.1/sites/morganeogerca.wordpress.com\")",
+      "Bash(curl -s \"https://public-api.wordpress.com/rest/v1.1/sites/138521332/posts/26023?fields=ID,slug,date,modified,URL,title,content,excerpt,categories,tags,featured_image,status\")",
+      "Bash(curl -s \"https://public-api.wordpress.com/rest/v1.1/sites/138521332/posts?number=100&page=1&fields=ID,slug,URL,status,type&status=publish\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('Total posts:', d['found']\\); [print\\(p['URL']\\) for p in d['posts'][:10]]\")",
+      "Bash(curl -s \"https://public-api.wordpress.com/rest/v1.1/sites/138521332/pages?number=20&fields=ID,slug,URL,title,status,parent\")",
+      "Read(//private/tmp/morganeoger.ca/**)",
+      "Bash(pnpm create *)",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(pnpm --version)",
+      "Bash(rm -rf /tmp/morganeoger.ca)",
+      "Bash(npx create-astro *)",
+      "Read(//tmp/**)",
+      "Bash(mkdir -p /tmp/morganeoger.ca)",
+      "Bash(pnpm init *)",
+      "Bash(pnpm add *)",
+      "Bash(doctl apps *)",
+      "Read(//Users/morgane/github/morganeoger.ca/**)"
+    ],
+    "additionalDirectories": [
+      "/tmp/morganeoger.ca",
+      "/private/tmp/morganeoger.ca"
+    ]
+  }
+}
