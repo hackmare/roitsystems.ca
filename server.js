@@ -12,6 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const DEFAULT_API_BASE_URL = 'https://pubapi.roitsystems.ca';
 const API_BASE_URL = process.env.API_BASE_URL || DEFAULT_API_BASE_URL;
+const DEFAULT_SOCIAL_IMAGE_PATH = '/images/social-preview.png';
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -163,6 +164,7 @@ app.use(
     // X-Powered-By is removed by Helmet automatically
     frameguard: { action: 'deny' }, // no framing needed on a public consulting site
     crossOriginEmbedderPolicy: false, // not needed for a public static site
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // social crawlers need to fetch preview images
   }),
 );
 
@@ -285,7 +287,7 @@ app.get('/blog/:path(*)', async (req, res) => {
 
     const absoluteUrlBase = `${req.protocol}://${req.get('host')}`;
     const blogImages = await getBlogImages(req.params.path, absoluteUrlBase);
-    const ogImageUrl = blogImages.social || null;
+    const ogImageUrl = blogImages.social || `${absoluteUrlBase}${DEFAULT_SOCIAL_IMAGE_PATH}`;
     const heroImageUrl = blogImages.hero || null;
 
     // Get recent blog posts for sidebar
@@ -344,11 +346,17 @@ app.get('/blog/:path(*)', async (req, res) => {
   <meta property="og:title" content="${escapeHtml(title)}" />
   <meta property="og:description" content="${escapeHtml(ogDescription)}" />
   <meta property="og:url" content="${escapeHtml(currentUrl)}" />
-  ${ogImageUrl ? `<meta property="og:image" content="${escapeHtml(ogImageUrl)}" />` : ''}
-  <meta name="twitter:card" content="${ogImageUrl ? 'summary_large_image' : 'summary'}" />
+  <meta property="og:image" content="${escapeHtml(ogImageUrl)}" />
+  <meta property="og:image:secure_url" content="${escapeHtml(ogImageUrl)}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="${escapeHtml(title)}" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(ogDescription)}" />
-  ${ogImageUrl ? `<meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" />` : ''}
+  <meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" />
+  <meta name="twitter:image:alt" content="${escapeHtml(title)}" />
   <script src="/config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
