@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const DEFAULT_API_BASE_URL = 'https://pubapi.roitsystems.ca';
 const API_BASE_URL = process.env.API_BASE_URL || DEFAULT_API_BASE_URL;
-const DEFAULT_SOCIAL_IMAGE_PATH = '/images/social-preview.png';
+const DEFAULT_SOCIAL_IMAGE_PATH = '/images/social-preview.jpg';
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -357,7 +357,7 @@ app.get('/blog/:path(*)', async (req, res) => {
   <meta property="og:url" content="${escapeHtml(currentUrl)}" />
   <meta property="og:image" content="${escapeHtml(ogImageUrl)}" />
   <meta property="og:image:secure_url" content="${escapeHtml(ogImageUrl)}" />
-  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="${escapeHtml(title)}" />
