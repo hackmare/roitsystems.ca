@@ -103,8 +103,18 @@ function cleanMarkdownText(value) {
     .trim();
 }
 
+function truncateText(value, maxLength = 220) {
+  const text = String(value ?? '').replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+
+  const truncated = text.slice(0, maxLength + 1);
+  const lastSpace = truncated.lastIndexOf(' ');
+  return `${truncated.slice(0, lastSpace > 120 ? lastSpace : maxLength).trim()}...`;
+}
+
 function extractTeaser(content) {
   let foundTitle = false;
+  const paragraphs = [];
 
   for (const line of content.split('\n')) {
     const trimmed = line.trim();
@@ -120,14 +130,13 @@ function extractTeaser(content) {
       !/^\*\*[^*]+\*\*$/.test(trimmed) &&
       trimmed.length > 10
     ) {
-      const firstParagraph = cleanMarkdownText(trimmed);
-      const sentences = firstParagraph.split('.').filter(s => s.trim().length > 0);
-      const firstTwoSentences = sentences.slice(0, 2).join('.').trim();
-      return firstTwoSentences ? firstTwoSentences + (firstTwoSentences.endsWith('.') ? '' : '.') : '';
+      paragraphs.push(cleanMarkdownText(trimmed));
+      const teaser = paragraphs.join(' ');
+      if (teaser.length >= 140) return truncateText(teaser);
     }
   }
 
-  return '';
+  return truncateText(paragraphs.join(' '));
 }
 
 // DigitalOcean App Platform sits behind a load balancer; trust one proxy hop.
@@ -280,7 +289,7 @@ app.get('/blog/:path(*)', async (req, res) => {
 
     // Extract title from markdown
     const title = extractMarkdownTitle(markdown);
-    const ogDescription = `${extractTeaser(markdown)} Read more...`;
+    const ogDescription = extractTeaser(markdown);
 
     // Construct current URL for sharing
     const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
