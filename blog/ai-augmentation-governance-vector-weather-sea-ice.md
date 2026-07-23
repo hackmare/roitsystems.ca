@@ -1,7 +1,7 @@
 # When Your Product Shapes Real Decisions, AI Governance Is the Product
 **What shipping Arctic sea-ice forecasting in ten days taught us about AI augmentation under human accountability**
 
-This month, RO IT Systems' Selkie Tech division shipped sea-ice forecasting in [Vector Weather](https://vector-weather.selkietech.ca/): concentration bands, a modeled ice edge, drift vectors, and ice conditions at every waypoint of a planned route, drawn daily from the Copernicus Marine global ocean model. The story behind the feature is told on the [Selkie Tech blog](https://selkietech.ca/blog/sea-ice-northwest-passage).
+This month, RO IT Systems' Selkie Tech division shipped sea-ice forecasting in [Vector Weather](https://vector-weather.selkietech.ca/): concentration bands, a modeled ice edge, drift vectors, and ice conditions at every waypoint of a planned route, drawn daily from the Copernicus Marine global ocean model and shaped through Vector Weather's environmental data aggregation and modelling engine. The story behind the feature is told on the [Selkie Tech blog](https://selkietech.ca/blog/sea-ice-northwest-passage).
 
 This post is about the part of the story that belongs here: how a safety-relevant data product gets built with AI doing much of the work — and why the governance design, not the AI, is what makes that acceptable.
 
