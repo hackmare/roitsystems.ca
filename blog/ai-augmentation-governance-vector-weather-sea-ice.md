@@ -5,7 +5,7 @@ This month, RO IT Systems' Selkie Tech division shipped sea-ice forecasting in [
 
 This post is about the part of the story that belongs here: how a safety-relevant data product gets built with AI doing much of the work — and why the governance design, not the AI, is what makes that acceptable.
 
-Vector Weather is not a navigation system, and says so on its own chart. It is decision support: people use it to make important decisions about marine trips — whether to make a passage this week or next, whether an anchorage will still be tenable at three in the morning, whether a planned route is worth attempting at all. That single fact sets the engineering constraint that governs everything else: **the AI cannot be allowed to hallucinate, so the architecture must make hallucination structurally irrelevant.**
+Vector Weather is not a navigation system, and says so on its own chart. It is decision support: people use it to make important decisions about marine trips — whether to make a passage this week or next, whether an anchorage will still be tenable at three in the morning, whether the sea ice will clog up the only route available. That single fact sets the engineering constraint that governs everything else: **the AI cannot be allowed to hallucinate, so the architecture must make hallucination structurally irrelevant.**
 
 ## Two lanes, separated by design
 
