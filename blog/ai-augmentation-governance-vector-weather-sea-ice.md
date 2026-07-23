@@ -11,7 +11,7 @@ Vector Weather is not a navigation system, and says so on its own chart. It is d
 
 Every decision-support product does two different jobs. It derives facts, and it communicates them. Our rule is that AI is welcome in the second job and excluded from the first — not by policy document, but by architecture.
 
-When Vector Weather reports 98 percent ice concentration in Amundsen Gulf, that number travelled from a satellite-assimilated physics model through deterministic code to the screen. Nothing probabilistic touched it. The viewport summary that labels conditions "dense modeled sea ice" is assembled by plain, auditable arithmetic — the source code marks it explicitly as LLM-free. Where a language model does write — turning a completed analysis into a briefing a skipper can absorb quickly — every number in that text arrives pre-computed, and the model's job is expression, not derivation.
+When Vector Weather reports 98 percent ice concentration in Amundsen Gulf, that number travelled from a satellite-assimilated physics model through deterministic code to the screen. Nothing probabilistic touched it. The viewport summary that labels conditions "dense modeled sea ice" is assembled by plain, auditable arithmetic — the source code marks it explicitly as LLM-free. Where a language model does write — turning a completed analysis into a briefing a skipper can absorb quickly — every number in that text arrives pre-computed, and the model's job is expression, not derivation. Prompts are engineered to govern the nature of the answer, and machine validation of the output confirms it.
 
 Two controls keep the lanes separated in practice rather than in aspiration:
 
