@@ -1,0 +1,39 @@
+# CI for the site, which until now had none: a syntax check, the production
+# dependencies against the npm advisory database, and a smoke test that starts
+# the server and fetches the home page, the blog list and one post
+# (scripts/smoke.sh). Read-only token, no secrets, nothing deployed.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Syntax, audit, smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          # The blog dates come from git history (server.js getGitDateOrMtime).
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: "22"
+      - run: npm ci --no-audit --no-fund
+      - name: Syntax
+        run: node --check server.js
+      - name: Production dependencies (npm advisory database)
+        run: npm audit --omit=dev --audit-level=high
+      - name: Smoke test
+        run: bash scripts/smoke.sh
