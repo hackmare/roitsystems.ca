@@ -13,6 +13,11 @@ const PORT = process.env.PORT || 8080;
 const DEFAULT_API_BASE_URL = 'https://pubapi.roitsystems.ca';
 const API_BASE_URL = process.env.API_BASE_URL || DEFAULT_API_BASE_URL;
 const DEFAULT_SOCIAL_IMAGE_PATH = '/images/social-preview.jpg';
+// The site's public address, for links and share images in the pages
+// (og:url, og:image, share buttons). Never taken from the request's Host
+// header: a page cached under the real address must not carry an address a
+// client made up. SITE_URL overrides it (local runs, a staging copy).
+const SITE_URL = (process.env.SITE_URL || 'https://roitsystems.ca').replace(/\/+$/, '');
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -292,9 +297,10 @@ app.get('/blog/:path(*)', async (req, res) => {
     const ogDescription = extractTeaser(markdown);
 
     // Construct current URL for sharing
-    const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+    // The page's own address, without any query string a link may carry.
+    const currentUrl = `${SITE_URL}${req.path}`;
 
-    const absoluteUrlBase = `${req.protocol}://${req.get('host')}`;
+    const absoluteUrlBase = SITE_URL;
     const blogImages = await getBlogImages(req.params.path, absoluteUrlBase);
     const ogImageUrl = blogImages.social || `${absoluteUrlBase}${DEFAULT_SOCIAL_IMAGE_PATH}`;
     const heroImageUrl = blogImages.hero || null;
