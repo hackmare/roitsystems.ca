@@ -5,7 +5,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs').promises;
-const { execFileSync } = require('child_process');
+const { execFile } = require('child_process');
+const { promisify } = require('util');
 const MarkdownIt = require('markdown-it');
 
 const app = express();
@@ -30,21 +31,55 @@ function blogUrlPath(value) {
     .join('/');
 }
 
+const execFileAsync = promisify(execFile);
+
+// Longest one `git log` may take before the file's own modification time is
+// used instead. Basis: on this repository it answers in tens of milliseconds;
+// 2 s is far above that and still short for a visitor waiting on the page.
+const GIT_DATE_TIMEOUT_MS = 2000;
+// After a git timeout, how long git is not asked at all (file dates are used,
+// not remembered). Without this a hung git would cost the time limit once per
+// post, one after another, on every blog request. Basis: long enough that a
+// hung git costs one wait a minute, short enough to recover by itself.
+const GIT_DATE_COOLDOWN_MS = 60_000;
+let gitSkipUntil = 0;
+
+// Post dates by file: { mtimeMs, date }. git is asked once per version of a
+// file, not on every request (the blog list and every post's sidebar read the
+// date of every post). An edited file has a new mtime and is asked again.
+const postDates = new Map();
+
 async function getGitDateOrMtime(fullPath) {
+  const stats = await fs.stat(fullPath);
+  const known = postDates.get(fullPath);
+  if (known && known.mtimeMs === stats.mtimeMs) return known.date;
+
+  if (Date.now() < gitSkipUntil) return stats.mtime.toISOString();
+
   const gitPath = path.relative(__dirname, fullPath);
+  let date = null;
+  let cacheable = true;
   try {
-    const date = execFileSync(
+    // Asynchronous, with a time limit: the server keeps serving while git runs,
+    // and a hung git (a stale lock, a slow disk) cannot hold a request.
+    const { stdout } = await execFileAsync(
       'git',
       ['log', '--follow', '-1', '--format=%ai', '--', gitPath],
-      { cwd: __dirname, encoding: 'utf8' },
-    ).trim();
-    if (date) return date;
-  } catch {
-    // Fallback to file mtime if git is unavailable in the runtime image.
+      { cwd: __dirname, encoding: 'utf8', timeout: GIT_DATE_TIMEOUT_MS },
+    );
+    date = stdout.trim() || null;
+  } catch (error) {
+    // git missing from the runtime image, or not a checkout: the file's mtime,
+    // as before. A timeout is not remembered, so the next request asks again.
+    if (error && error.killed) {
+      cacheable = false;
+      gitSkipUntil = Date.now() + GIT_DATE_COOLDOWN_MS;
+    }
   }
 
-  const stats = await fs.stat(fullPath);
-  return stats.mtime.toISOString();
+  const result = date || stats.mtime.toISOString();
+  if (cacheable) postDates.set(fullPath, { mtimeMs: stats.mtimeMs, date: result });
+  return result;
 }
 
 function blogImageSlug(blogPath) {
